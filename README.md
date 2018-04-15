@@ -1,5 +1,5 @@
-# FinanceBuddi
-FinanceBuddi - a finance tracker web app project, ITTalents
+# MoneyBuddi
+MoneyBuddi - a finance tracker web app project, ITTalents
 
 
 
