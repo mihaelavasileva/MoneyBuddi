@@ -3,9 +3,13 @@ package dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 
+import exceptions.InvalidDataException;
 import model.Budget;
+import model.User;
 
 public class BudgetDao implements IBudgetDAO{
 	
@@ -27,8 +31,8 @@ public class BudgetDao implements IBudgetDAO{
 	@Override
 	public void addBudget(Budget budget) throws SQLException  {
 		
-		PreparedStatement ps=connection.prepareStatement("INSERT INTO budgets (amount,begin_date,end_date,user_id,currency_id,category_id)"
-		+ "VALUES(?,?,?,?,?,?)");
+		try(PreparedStatement ps=connection.prepareStatement("INSERT INTO budgets (amount,begin_date,end_date,user_id,currency_id,category_id)"
+		+ "VALUES(?,?,?,?,?,?)");){
 		ps.setDouble(1, budget.getAmount());
 		ps.setDate(2, Date.valueOf(budget.getBeginDate()));
 		ps.setDate(3, Date.valueOf(budget.getEndDate()));
@@ -41,15 +45,15 @@ public class BudgetDao implements IBudgetDAO{
 		if(rows==0) {
 			
 			throw new SQLException("Cannot add budget in DB");
-		}
+			}
 		
-		
+		}	
 	}
 
 	@Override
 	public void updateBudget(Budget budget) throws SQLException {
-		PreparedStatement ps=connection.prepareStatement("UPDATE budgets SET amount=?,begin_date=?,end_date=?,user_id=?,currency_id=?,category_id=? "
-	    +"WHERE id=?");
+		try(PreparedStatement ps=connection.prepareStatement("UPDATE budgets SET amount=?,begin_date=?,end_date=?,user_id=?,currency_id=?,category_id=? "
+	    +"WHERE id=?");){
 		ps.setDouble(1, budget.getAmount());
 		ps.setDate(2, Date.valueOf(budget.getBeginDate()));
 		ps.setDate(3, Date.valueOf(budget.getEndDate()));
@@ -62,9 +66,55 @@ public class BudgetDao implements IBudgetDAO{
 		if(rows==0) {
 			
 			throw new SQLException("Cannot update budget in DB");
+				}
 		}
 		
 	}
+
+	@Override
+	public void deleteBudget(Budget budget) throws SQLException {
+		
+		try(PreparedStatement ps=connection.prepareStatement("DELETE FROM budgets WHERE id=?");){
+		ps.setInt(1, budget.getId());
+		
+		int rows=ps.executeUpdate();
+		if(rows==0) {
+			throw new SQLException("Budget cannot be deleted from DB");
+				}	
+		
+		}
+	}
+
+	@Override
+	public Collection<Budget> getAllBudgetsForUser(User user) throws SQLException,InvalidDataException {//can throw SQL OR INVALID DATA EXCEPTION
+		Collection<Budget> budgets=null;
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id , amount , begin_date, "
+				                                             +"end_date , user_id , currency_id , category_id "
+				                                             + "FROM budgets WHERE user_id=?");){
+			ps.setInt(1,(int) user.getId());
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					budgets.add(new Budget(rs.getInt("id"),
+							               CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id")), 
+							               rs.getDouble("amount"), 
+							               UserDao.getInstance().getUserById(rs.getInt("user_id")), 
+							               CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							               rs.getDate("begin_date").toLocalDate(), 
+							               rs.getDate("end_date").toLocalDate()));
+					
+					                        
+					
+				}
+			}
+		}
+		return budgets;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

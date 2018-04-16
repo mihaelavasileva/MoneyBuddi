@@ -45,7 +45,10 @@ public class Budget {
 	}
 	
 
-	public void setCategory(Category category) {
+	public void setCategory(Category category) throws InvalidDataException {
+		if(category==null) {
+			throw new InvalidDataException("Category cant be null");
+		}
 		this.category = category;
 	}
 	
@@ -93,7 +96,10 @@ public class Budget {
 	
 	
 	
-	public void setCurrency(Currency currency) {
+	public void setCurrency(Currency currency) throws InvalidDataException {
+		if(currency==null) {
+			throw new InvalidDataException("Currency cant be null");
+		}
 		this.currency = currency;
 	}
 	

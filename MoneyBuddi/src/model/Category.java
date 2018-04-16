@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidDataException;
 import model.Transaction.TransactionType;
 
 public class Category {
@@ -11,13 +12,13 @@ public class Category {
 	private TransactionType type;
 	
 	
-	public Category(int id, String category, TransactionType type) {
+	public Category(int id, String category, TransactionType type) throws InvalidDataException {
 	    this(category,type);
 		this.setId(id);
 		
 	}
 	
-	public Category(String category, TransactionType type) {
+	public Category(String category, TransactionType type) throws InvalidDataException {
 		this.setCategory(category);
 		this.setType(type);
 	}
@@ -39,7 +40,10 @@ public class Category {
 	public TransactionType getType() {
 		return type;
 	}
-	public void setType(TransactionType type) {
+	public void setType(TransactionType type) throws InvalidDataException {
+		if(type==null) {
+			throw new InvalidDataException("Type cant be null");
+		}
 		this.type = type;
 	}
 	

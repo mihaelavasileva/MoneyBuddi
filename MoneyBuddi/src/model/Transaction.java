@@ -9,7 +9,7 @@ public abstract class Transaction {
 	
 	
 	
-	public enum TransactionType{
+	public enum TransactionType{//finance_operation_type
 		INCOME,EXPENSE;
 	}
 	
@@ -130,7 +130,10 @@ public abstract class Transaction {
 	
 	
 	
-	public void setCategory(Category category) {
+	public void setCategory(Category category) throws InvalidDataException {
+		if(category==null) {
+			throw new InvalidDataException("Category cant be null");
+		}
 		this.category = category;
 	}
 	

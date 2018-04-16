@@ -1,8 +1,10 @@
 package dao;
 
 import java.sql.SQLException;
+import java.util.Collection;
 
 import model.Budget;
+import model.User;
 
 public interface IBudgetDAO {
 	
@@ -10,5 +12,8 @@ public interface IBudgetDAO {
 	
 	void updateBudget(Budget budget) throws SQLException;
 	
+	void deleteBudget(Budget budget) throws SQLException;
+	
+	Collection <Budget> getAllBudgetsForUser(User user) throws Exception;
 
 }
