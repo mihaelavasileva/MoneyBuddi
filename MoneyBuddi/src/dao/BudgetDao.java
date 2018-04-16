@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import exceptions.CannotInsertUserInDBException;
 import model.Budget;
 
 public class BudgetDao implements IBudgetDAO{
