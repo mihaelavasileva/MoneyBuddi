@@ -1,14 +1,16 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import model.Account;
+import model.User;
 
 public interface IAccountDao {
 
-	void addAccount(Account account) throws Exception;
-	void updateAccount(Account account) throws Exception;
-	void deleteAccount(Account account) throws Exception;
-	Account getAccountByName(String name) throws Exception;
-	List<Account> getAccountsForUserByUsername(String username) throws Exception;
+	void addAccount(Account account, User u) throws SQLException;
+	void updateAccount(Account account) throws SQLException;
+	void deleteAccount(Account account) throws SQLException;
+	Account getAccountByName(String name, User u) throws Exception;
+	List<Account> getAllAccountsForUser(User u) throws Exception;
 }

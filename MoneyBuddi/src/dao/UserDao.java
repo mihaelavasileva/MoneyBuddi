@@ -140,4 +140,26 @@ public class UserDao implements IUserDao {
 		PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM" + " users WHERE email=?");
 		return ps.executeUpdate();
 	}
+	
+	@Override
+	public boolean validate(String email, String pass) throws SQLException {
+		boolean status=false;
+		PreparedStatement ps=null;
+		try{  
+			ps=connection.prepareStatement(  
+			    "SELECT COUNT(id) FROM users WHERE email=? AND pass=?");  
+		
+			ps.setString(1,email);  
+			ps.setString(2, pass);  
+			              
+			ResultSet rs=ps.executeQuery();  
+			status=rs.next();
+		}catch(Exception e){
+			
+		}finally {
+			ps.close();
+		}
+		  
+		return status;
+	}
 }

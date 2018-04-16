@@ -4,12 +4,12 @@ import com.sun.media.sound.InvalidDataException;
 
 public class Account {
 	
-	private int id;
+	private long id;
 	private String name;
 	private double balance;
 	private User user;
 
-	public Account(int id, String name, double balance, User user) throws InvalidDataException {
+	public Account(long id, String name, double balance, User user) throws InvalidDataException {
 		this.setId(id);
 		this.setName(name);
 		this.setBalance(balance);
@@ -20,7 +20,7 @@ public class Account {
 	public double getBalance() {
 		return balance;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public String getName() {
@@ -33,7 +33,7 @@ public class Account {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public void setUser(User user) throws InvalidDataException {
