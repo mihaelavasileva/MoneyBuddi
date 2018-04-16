@@ -19,6 +19,7 @@ public abstract class Transaction {
 	private Account account;
 	private LocalDateTime date;
 	private Category category;
+	private String description;//not obligatory?
 	private TransactionType type;
 	
 	
@@ -26,15 +27,13 @@ public abstract class Transaction {
 	
 	public Transaction(int id, double amount, Currency currency, Account account, LocalDateTime date, Category category,
 			TransactionType type) {
-		
+		this(amount,currency,account,date,category,type);
 		this.setId(id);
-		this.setAmount(amount);
-		this.setCurrency(currency);
-		this.setAccount(account);
-		this.setDate(date);
-		this.setCategory(category);
-		this.setType(type);
+		
+		
 	}
+	
+	
 
 	public Transaction(double amount, Currency currency, Account account, LocalDateTime date, Category category,
 			TransactionType type) {
@@ -46,9 +45,19 @@ public abstract class Transaction {
 		this.setCategory(category);
 		this.setType(type);
 	}
-
+	
 	
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		if(description.trim().equals("")) {
+			//TODO
+		}
+		this.description = description;
+	}
 
 	public int getId() {
 		return id;
@@ -69,6 +78,9 @@ public abstract class Transaction {
 	
 	
 	public void setAmount(double amount) {
+		if(amount<=0) {
+			//TODO
+		}
 		this.amount = amount;
 	}
 	

@@ -18,12 +18,9 @@ public class Budget {
 	
 	
 	public Budget(int id,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) {
+		this(amount, user, currency, beginDate, endDate);
 		this.setId(id);
-		this.setAmount(amount);
-		this.setUser(user);
-		this.setCurrency(currency);
-		this.setBeginDate(beginDate);
-		this.setEndDate(endDate);
+		
 	}
 	
 	public Budget(double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) {
@@ -32,6 +29,9 @@ public class Budget {
 		this.setCurrency(currency);
 		this.setBeginDate(beginDate);
 		this.setEndDate(endDate);
+		if(this.getEndDate().isBefore(this.beginDate)) {
+			//TODO 
+		}
 	}
 
 
@@ -53,6 +53,9 @@ public class Budget {
 	
 	
 	public void setAmount(double amount) {
+		if(amount<=0) {
+			//TODO 
+		}
 		this.amount = amount;
 	}
 	
@@ -64,6 +67,9 @@ public class Budget {
 	
 	
 	public void setUser(User user) {
+		if(user==null) {
+			//TODO
+		}
 		this.user = user;
 	}
 	
