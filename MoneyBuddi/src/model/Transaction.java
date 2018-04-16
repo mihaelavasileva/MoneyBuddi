@@ -2,6 +2,8 @@ package model;
 
 import java.time.LocalDateTime;
 
+import exceptions.InvalidDataException;
+
 public abstract class Transaction {
 	
 	
@@ -26,7 +28,7 @@ public abstract class Transaction {
 	
 	
 	public Transaction(int id, double amount, Currency currency, Account account, LocalDateTime date, Category category,
-			TransactionType type) {
+			TransactionType type) throws InvalidDataException {
 		this(amount,currency,account,date,category,type);
 		this.setId(id);
 		
@@ -36,7 +38,7 @@ public abstract class Transaction {
 	
 
 	public Transaction(double amount, Currency currency, Account account, LocalDateTime date, Category category,
-			TransactionType type) {
+			TransactionType type) throws InvalidDataException {
 		
 		this.setAmount(amount);
 		this.setCurrency(currency);
@@ -77,9 +79,9 @@ public abstract class Transaction {
 	
 	
 	
-	public void setAmount(double amount) {
+	public void setAmount(double amount) throws InvalidDataException {
 		if(amount<=0) {
-			//TODO
+			throw new InvalidDataException("Transaction amount can'b be negative");
 		}
 		this.amount = amount;
 	}

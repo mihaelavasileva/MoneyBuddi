@@ -2,6 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
+import exceptions.InvalidDataException;
+
 public class Budget {
 	
 	
@@ -9,6 +11,7 @@ public class Budget {
 	
 	private double amount;
 	private User user;
+	private Category category;
 	private Currency currency;
 	private LocalDate beginDate;
 	private LocalDate endDate;
@@ -17,31 +20,41 @@ public class Budget {
 	//TODO ADD validations in setters 
 	
 	
-	public Budget(int id,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) {
-		this(amount, user, currency, beginDate, endDate);
+	public Budget(int id,Category category,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) throws InvalidDataException {
+		this(category,amount, user, currency, beginDate, endDate);
 		this.setId(id);
 		
 	}
 	
-	public Budget(double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) {
+	public Budget(Category category,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) throws InvalidDataException {
+		this.setCategory(category);
 		this.setAmount(amount);
 		this.setUser(user);
 		this.setCurrency(currency);
 		this.setBeginDate(beginDate);
 		this.setEndDate(endDate);
 		if(this.getEndDate().isBefore(this.beginDate)) {
-			//TODO 
+			throw new InvalidDataException("Begin date cannot be after end date");
 		}
 	}
 
 
+
+	public Category getCategory() {
+		return category;
+	}
+	
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
 
 	public int getId() {
 		return id;
 	}
 	
 
-	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -52,9 +65,9 @@ public class Budget {
 	}
 	
 	
-	public void setAmount(double amount) {
+	public void setAmount(double amount) throws InvalidDataException {
 		if(amount<=0) {
-			//TODO 
+		  throw new InvalidDataException("Budget amount can't be negative");
 		}
 		this.amount = amount;
 	}
@@ -66,9 +79,9 @@ public class Budget {
 	
 	
 	
-	public void setUser(User user) {
+	public void setUser(User user) throws InvalidDataException {
 		if(user==null) {
-			//TODO
+			throw new InvalidDataException("User cannot be null");
 		}
 		this.user = user;
 	}
