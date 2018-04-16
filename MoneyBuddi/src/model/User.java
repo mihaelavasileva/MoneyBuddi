@@ -10,7 +10,7 @@ public class User {
 	private String password;
 	private String email;
 	
-	public User(long id, int age, String username, String password, String email) throws InvalidDataException {
+	public User(long id, String username, String password, String email,int age) throws InvalidDataException {
 		this.setId(id);
 		this.setAge(age);
 		this.setUsername(username);
