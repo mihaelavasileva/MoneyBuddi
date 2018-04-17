@@ -7,20 +7,20 @@ import java.sql.SQLException;
 
 import model.Transaction.TransactionType;
 
-public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
+public class TransactionTypeDAO implements ITransactionTypeDAO{
 	
 	
-	private static FinanceOperationTypeDAO instance;
+	private static TransactionTypeDAO instance;
 	private Connection connection;
 
-	public synchronized static FinanceOperationTypeDAO getInstance() {
+	public synchronized static TransactionTypeDAO getInstance() {
 		if (instance == null) {
-			instance = new FinanceOperationTypeDAO();
+			instance = new TransactionTypeDAO();
 		}
 		return instance;
 	}
 
-	private FinanceOperationTypeDAO() {
+	private TransactionTypeDAO() {
 		//connection = DBManager.getInstance().getConnection();
 	}
 	
@@ -28,7 +28,7 @@ public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
 	@Override
 	public TransactionType getTypeById(int id) throws SQLException {
 		
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name FROM finance_operation_types WHERE id=?");){
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name FROM transaction_types WHERE id=?");){
 			ps.setInt(1, id);
 			try(ResultSet rs=ps.executeQuery()){
 				rs.next();
@@ -51,7 +51,7 @@ public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
 	@Override
 	public int getIdByTranscationType(TransactionType t) throws SQLException {
 		
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM operation_types WHERE name=?")){
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM transaction_types WHERE name=?")){
 			ps.setString(1, t.toString());
 			try(ResultSet rs=ps.executeQuery()){
 				rs.next();
