@@ -8,11 +8,11 @@
 </head>
 <body>
 	<form action="register" method="post">
-		Username<input type=text required><br>
-		Password<input type=password required><br>
-		Confirm Password<input type=password required><br>
-		Email<input type=email required><br>
-		Age<input type=number required><br>
+		Username<input type=text name="username" required><br>
+		Password<input type=password name="password1" required><br>
+		Confirm Password<input type=password name="password2" required><br>
+		Email<input type=email name="email" required><br>
+		Age<input type=number name="age" required><br>
 		<input type=submit value="Register">
 		<a href="index.jsp">Login here</a>&nbsp;if you already have an account!
 	</form>
