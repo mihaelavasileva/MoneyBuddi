@@ -26,12 +26,12 @@ public class Category {
 	
 	public Category(String category, TransactionType type,int user_id) throws InvalidDataException {
 		this(category,type);
-		this.setId(user_id);
+		this.setUserId(user_id);
 	}
 	
 	public Category(int id,String category, TransactionType type,int user_id) throws InvalidDataException {
 		this(id,category,type);
-		this.setId(user_id);
+		this.setUserId(user_id);
 	}
 	
 	

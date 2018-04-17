@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import controller.manager.DBManager;
 import model.Transaction.TransactionType;
 
 public class TransactionTypeDAO implements ITransactionTypeDAO{
@@ -21,7 +22,7 @@ public class TransactionTypeDAO implements ITransactionTypeDAO{
 	}
 
 	private TransactionTypeDAO() {
-		//connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 	
 
@@ -50,14 +51,16 @@ public class TransactionTypeDAO implements ITransactionTypeDAO{
 
 	@Override
 	public int getIdByTranscationType(TransactionType t) throws SQLException {
-		
+		String type=t.toString();
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM transaction_types WHERE name=?")){
-			ps.setString(1, t.toString());
+			ps.setString(1, type);
+			System.out.println(type);
+			
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {
+				if(rs.next()) {
 					return rs.getInt("id");
 				}
+					
 			}
 		}
 		return 0;

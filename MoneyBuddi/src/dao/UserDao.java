@@ -157,16 +157,23 @@ public class UserDao implements IUserDao {
 		boolean status=false;
 		PreparedStatement ps=null;
 		try{  
+			
 			ps=connection.prepareStatement(  
-			    "SELECT COUNT(id) FROM users WHERE username=? AND pass=?");  
+			    "SELECT id FROM users WHERE username=? AND password=?");  
+		
+			    //COUNT(id) go smenih shtoto shteshe da vrushta red nezavisimo dali
+			    //sushtesvuva toq user i status=rs.next() shteshe da vrushta true vinagi
 		
 			ps.setString(1,username);  
 			ps.setString(2, pass);  
 			              
-			ResultSet rs=ps.executeQuery();  
+			ResultSet rs=ps.executeQuery();
+		   
 			status=rs.next();
-		}catch(Exception e){
 			
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Exception");
 		}finally {
 			ps.close();
 		}
