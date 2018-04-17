@@ -4,14 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<form action="login" method="post">
-		Username<input type=text><br>
-		Password<input type=password><br>
-		<input type=submit value="Login">
-		<a href="register.jsp">Register here</a>&nbsp;if you don`t have an account!
-	</form>
+
 </body>
 </html>
