@@ -1,45 +1,36 @@
 package model;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import exceptions.InvalidDataException;
 
 public abstract class Transaction {
-	
-	
-	
-	
-	public enum TransactionType{//finance_operation_type
-		INCOME,EXPENSE;
+
+	public enum TransactionType{
+		//transaction_type, transaction is income or expense
+		INCOME(1),EXPENSE(2);
+		private int id;
+		private TransactionType(int id) {
+			this.id=id;
+		}
+		public int getId() {
+			return id;
+		}
 	}
-	
-	
 	
 	private int id;
 	private double amount;
 	private Currency currency;
 	private Account account;
-	private LocalDateTime date;
+	private LocalDate date;
 	private Category category;
-	private String description;//not obligatory?
+	private String description;//not obligatory?, can be null
 	private TransactionType type;
 	
-	
-	
-	
-	public Transaction(int id, double amount, Currency currency, Account account, LocalDateTime date, Category category,
-			TransactionType type) throws InvalidDataException {
-		this(amount,currency,account,date,category,type);
-		this.setId(id);
-		
-		
-	}
-	
-	
-
-	public Transaction(double amount, Currency currency, Account account, LocalDateTime date, Category category,
-			TransactionType type) throws InvalidDataException {
-		
+	public Transaction(double amount, Currency currency, Account account, LocalDate date, 
+			Category category, TransactionType type) throws InvalidDataException {
 		this.setAmount(amount);
 		this.setCurrency(currency);
 		this.setAccount(account);
@@ -48,87 +39,73 @@ public abstract class Transaction {
 		this.setType(type);
 	}
 	
-	
+	public Transaction(int id, double amount, Currency currency, Account account, 
+			LocalDate date, Category category, TransactionType type) throws InvalidDataException {
+		this(amount,currency,account,date,category,type);
+		this.setId(id);
+	}
 
+	//=====getters
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		if(description.trim().equals("")) {
-			//TODO
-		}
-		this.description = description;
+	public TransactionType getType() {
+		return type;
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+	
+	public Date getDate() {
+		return Date.valueOf(date);
+	}
+	
+	public Account getAccount() {
+		return account;
 	}
 
 	public int getId() {
 		return id;
 	}
 	
-	
-	
-	public void setId(int id) {
-		this.id = id;
+	public Currency getCurrency() {
+		return currency;
 	}
-	
-	
 	
 	public double getAmount() {
 		return amount;
 	}
 	
+	//======setters
+	public void setDescription(String description) {
+		//check if description is null when selecting from db
+		this.description = description;
+	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public void setAmount(double amount) throws InvalidDataException {
 		if(amount<=0) {
-			throw new InvalidDataException("Transaction amount can'b be negative");
+			throw new InvalidDataException("Transaction amount can't be negative number");
 		}
 		this.amount = amount;
 	}
-	
-	
-	
-	public Currency getCurrency() {
-		return currency;
-	}
-	
-	
 	
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 	
-	
-	
-	public Account getAccount() {
-		return account;
-	}
-	
-	
-	
 	public void setAccount(Account account) {
 		this.account = account;
 	}
 	
-	
-	
-	public LocalDateTime getDate() {
-		return date;
-	}
-	
-	
-	
-	public void setDate(LocalDateTime date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	
-	
-	
-	public Category getCategory() {
-		return category;
-	}
-	
-	
 	
 	public void setCategory(Category category) throws InvalidDataException {
 		if(category==null) {
@@ -137,20 +114,7 @@ public abstract class Transaction {
 		this.category = category;
 	}
 	
-	
-	
-	public TransactionType getType() {
-		return type;
-	}
-	
-	
-	
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
-	
-	
-	
-	
-
 }

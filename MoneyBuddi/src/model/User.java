@@ -4,22 +4,27 @@ import exceptions.InvalidDataException;
 
 public class User {
 
-	private long id;
+	private int id;
 	private int age;
 	private String username;
 	private String password;
 	private String email;
 	
-	public User(long id, String username, String password, String email,int age) throws InvalidDataException {
-		this.setId(id);
+	//constructor without id
+	public User(String username, String password, String email,int age) throws InvalidDataException {
 		this.setAge(age);
 		this.setUsername(username);
 		this.setPassword(password);
 		this.setEmail(email);
 	}
+	//constructor with id
+	public User(int id, String username, String password, String email,int age) throws InvalidDataException {
+		this(username, password, email, age);
+		this.setId(id);
+	}
 	
 	//====getters
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	public int getAge() {
@@ -37,7 +42,7 @@ public class User {
 	
 	//=====setters
 	public void setId(long id) {
-		this.id = id;
+		this.id =(int) id;
 	}
 	public void setAge(int age) throws InvalidDataException{
 		if(age<14 || age>100) {

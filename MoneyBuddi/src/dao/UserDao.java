@@ -57,7 +57,7 @@ public class UserDao implements IUserDao {
 		PreparedStatement s = null;
 		try {
 			s = connection.prepareStatement("DELETE FROM users WHERE id=?");
-			s.setLong(1, u.getId());
+			s.setInt(1, u.getId());
 			s.executeUpdate();
 		} catch (Exception e) {
 			throw new SQLException("Could not delete user.");
@@ -91,13 +91,13 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public User getUserById(long id) throws SQLException {
+	public User getUserById(int id) throws SQLException {
 		User user = null;
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement("SELECT username,password,"
 					+ "email,age FROM users WHERE id=?");
-			ps.setLong(1, id);
+			ps.setInt(1, id);
 			ResultSet result = ps.executeQuery();
 			// create the user
 			user = new User(id, result.getString(1), // get user`s username
@@ -122,7 +122,7 @@ public class UserDao implements IUserDao {
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
 			// create the user
-			user = new User(result.getLong(1),//get id
+			user = new User((int)result.getLong(1),//get id
 					username,
 					result.getString(2),//get password
 					result.getString(3),//get email

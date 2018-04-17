@@ -52,13 +52,10 @@ public class AccountDao implements IAccountDao {
 				+ "name=?, balance=?, user_id=?, currency_id=?"
 				+ "WHERE id=?");
 		ps.setString(1, account.getName());
-		//change in db to double !!!
 		ps.setDouble(2, account.getBalance());
-		//again setting long
-		ps.setLong(3, u.getId());
-		//setting long when the type in db is int !!!!
-		ps.setLong(4, currency.getId());
-		ps.setLong(5, account.getId());
+		ps.setInt(3, u.getId());
+		ps.setInt(4, currency.getId());
+		ps.setInt(5, account.getId());
 	}
 
 	@Override
@@ -81,7 +78,7 @@ public class AccountDao implements IAccountDao {
 			ps.setLong(2, u.getId());
 			
 			ResultSet rs=ps.executeQuery();
-			account=new Account(rs.getLong(1),
+			account=new Account((int)rs.getLong(1),
 								name,
 								rs.getDouble(2),
 								u);
@@ -103,7 +100,7 @@ public class AccountDao implements IAccountDao {
 			
 			ResultSet result=ps.executeQuery();
 			while(result.next()) {
-				accounts.add(new Account(result.getLong(1),//add id to account
+				accounts.add(new Account((int)result.getLong(1),//add id to account
 						                 result.getString(2),//name
 						                 result.getDouble(3),//amount
 						                 u));
