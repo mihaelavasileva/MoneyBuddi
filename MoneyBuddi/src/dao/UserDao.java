@@ -144,14 +144,14 @@ public class UserDao implements IUserDao {
 	}
 	
 	@Override
-	public boolean validate(String email, String pass) throws SQLException {
+	public boolean validate(String username, String pass) throws SQLException {
 		boolean status=false;
 		PreparedStatement ps=null;
 		try{  
 			ps=connection.prepareStatement(  
-			    "SELECT COUNT(id) FROM users WHERE email=? AND pass=?");  
+			    "SELECT COUNT(id) FROM users WHERE username=? AND pass=?");  
 		
-			ps.setString(1,email);  
+			ps.setString(1,username);  
 			ps.setString(2, pass);  
 			              
 			ResultSet rs=ps.executeQuery();  
