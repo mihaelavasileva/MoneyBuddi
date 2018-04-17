@@ -7,20 +7,20 @@ import java.sql.SQLException;
 
 import model.Transaction.TransactionType;
 
-public class FinanceOperationtTypeDAO implements IFinanceOperationTypeDAO{
+public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
 	
 	
-	private static FinanceOperationtTypeDAO instance;
+	private static FinanceOperationTypeDAO instance;
 	private Connection connection;
 
-	public synchronized static FinanceOperationtTypeDAO getInstance() {
+	public synchronized static FinanceOperationTypeDAO getInstance() {
 		if (instance == null) {
-			instance = new FinanceOperationtTypeDAO();
+			instance = new FinanceOperationTypeDAO();
 		}
 		return instance;
 	}
 
-	private FinanceOperationtTypeDAO() {
+	private FinanceOperationTypeDAO() {
 		//connection = DBManager.getInstance().getConnection();
 	}
 	
@@ -46,6 +46,21 @@ public class FinanceOperationtTypeDAO implements IFinanceOperationTypeDAO{
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getIdByTranscationType(TransactionType t) throws SQLException {
+		
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM operation_types WHERE name=?")){
+			ps.setString(1, t.toString());
+			try(ResultSet rs=ps.executeQuery()){
+				rs.next();
+				if(rs.getInt(1)==1) {
+					return rs.getInt("id");
+				}
+			}
+		}
+		return 0;
 	}
 	
 	

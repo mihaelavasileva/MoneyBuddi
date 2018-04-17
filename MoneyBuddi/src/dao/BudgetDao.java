@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import exceptions.InvalidDataException;
@@ -87,7 +88,7 @@ public class BudgetDao implements IBudgetDAO{
 
 	@Override
 	public Collection<Budget> getAllBudgetsForUser(User user) throws SQLException,InvalidDataException {//can throw SQL OR INVALID DATA EXCEPTION
-		Collection<Budget> budgets=null;
+		Collection<Budget> budgets=new ArrayList<>();
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id , amount , begin_date, "
 				                                             +"end_date , user_id , currency_id , category_id "
 				                                             + "FROM budgets WHERE user_id=?");){
