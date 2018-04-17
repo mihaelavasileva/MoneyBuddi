@@ -13,4 +13,5 @@ public interface IUserDao {
 	User getUserByUsername(String username) throws SQLException;
 	int checkIfEmailExists(String email) throws SQLException;
 	boolean validate(String email, String pass) throws SQLException;
+	User getUserByUsernameAndPassword(String pass, String username) throws Exception;
 }

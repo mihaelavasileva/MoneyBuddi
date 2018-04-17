@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exceptions.InvalidDataException;
+
 import java.sql.Connection;
 
 import model.User;
@@ -162,4 +164,26 @@ public class UserDao implements IUserDao {
 		  
 		return status;
 	}
+	
+	@Override
+	public User getUserByUsernameAndPassword(String pass, String username) throws SQLException,
+	InvalidDataException {
+		String sql = "SELECT id, username, password, email, age FROM users WHERE username = ?"
+				+ " AND password = ?";
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setString(1, username);
+		ps.setString(2, pass);
+		ResultSet result = ps.executeQuery();
+		if(result.next()) {
+			return new User(result.getInt("id"),
+					result.getString("username"),
+					result.getString("password"),
+					result.getString("email"),
+					result.getInt("age"));
+			}
+		else {
+			return null;
+		}
+	}
+	
 }
