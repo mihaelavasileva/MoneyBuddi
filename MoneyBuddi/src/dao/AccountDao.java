@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Account;
+import model.Currency;
 import model.User;
 
 public class AccountDao implements IAccountDao {
@@ -27,25 +28,37 @@ public class AccountDao implements IAccountDao {
 	}
 	
 	@Override
-	public void addAccount(Account account, User u) throws SQLException {
+	public void addAccount(Account account, User u, Currency currency) throws SQLException {
 		PreparedStatement s = null;
 		try {
 			s = connection.prepareStatement("INSERT INTO accounts (name, balance,"
 					+ "user_id, currency_id)"
-					+ "VALUES()");
-			//TODO decide how to get currency_id!!!!
+					+ "VALUES(?,?,?,?)");
+			s.setString(1, account.getName());
+			s.setDouble(2, account.getBalance());
+			s.setLong(3, u.getId());
+			s.setLong(4, currency.getId());
 			s.executeUpdate();
 		} finally {
 			s.close();
 		}
 
-		System.out.println("Deleted user from DB. ");
+		System.out.println("Account added in DB. ");
 	}
 
 	@Override
-	public void updateAccount(Account account) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void updateAccount(Account account, User u, Currency currency) throws SQLException {
+		PreparedStatement ps=connection.prepareStatement("UPDATE accounts SET"
+				+ "name=?, balance=?, user_id=?, currency_id=?"
+				+ "WHERE id=?");
+		ps.setString(1, account.getName());
+		//change in db to double !!!
+		ps.setDouble(2, account.getBalance());
+		//again setting long
+		ps.setLong(3, u.getId());
+		//setting long when the type in db is int !!!!
+		ps.setLong(4, currency.getId());
+		ps.setLong(5, account.getId());
 	}
 
 	@Override
@@ -54,6 +67,7 @@ public class AccountDao implements IAccountDao {
 		PreparedStatement ps=connection.prepareStatement(sql);
 		ps.setLong(1, account.getId());
 		ps.executeUpdate();
+		ps.close();
 	}
 
 	@Override

@@ -4,12 +4,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 import model.Account;
+import model.Currency;
 import model.User;
 
 public interface IAccountDao {
 
-	void addAccount(Account account, User u) throws SQLException;
-	void updateAccount(Account account) throws SQLException;
+	void addAccount(Account account, User u, Currency currency) throws SQLException;
+	void updateAccount(Account account, User u,Currency currency) throws SQLException;
 	void deleteAccount(Account account) throws SQLException;
 	Account getAccountByName(String name, User u) throws Exception;
 	List<Account> getAllAccountsForUser(User u) throws Exception;
