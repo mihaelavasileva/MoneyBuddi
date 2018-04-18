@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +35,23 @@ public class AccountDao implements IAccountDao {
 		try {
 			s = connection.prepareStatement("INSERT INTO accounts (name, balance,"
 					+ "user_id, currency_id)"
-					+ "VALUES(?,?,?,?)");
+					+ "VALUES(?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			s.setString(1, account.getName());
 			s.setDouble(2, account.getBalance());
 			s.setLong(3, account.getUser().getId());
 			s.setLong(4, account.getCurrencyId());
-			s.executeUpdate();
+			
+			int rows = s.executeUpdate();
+			if (rows == 0) {
+				// if user is not inserted, throw exception
+				throw new SQLException("Account was not inserted in DB.");
+			}
+
+			// retrieve user`s id
+			ResultSet generatedKey = s.getGeneratedKeys();
+			generatedKey.next();
+			account.setId(generatedKey.getLong(1));
+
 		} finally {
 			s.close();
 		}
@@ -49,14 +61,15 @@ public class AccountDao implements IAccountDao {
 
 	@Override
 	public void updateAccount(Account account) throws SQLException {
-		PreparedStatement ps=connection.prepareStatement("UPDATE accounts SET"
-				+ "name=?, balance=?, user_id=?, currency_id=?"
+		PreparedStatement ps=connection.prepareStatement("UPDATE accounts SET "
+				+ "name=?, balance=?, user_id=?, currency_id=? "
 				+ "WHERE id=?");
 		ps.setString(1, account.getName());
 		ps.setDouble(2, account.getBalance());
 		ps.setInt(3, account.getUser().getId());
 		ps.setInt(4, account.getCurrencyId());
 		ps.setInt(5, account.getId());
+		ps.executeUpdate();
 	}
 
 	@Override
@@ -73,18 +86,31 @@ public class AccountDao implements IAccountDao {
 		Account account = null;
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("SELECT id,name,balance"
-					+ "user_id, currency_id"
+			ps = connection.prepareStatement("SELECT id,name,balance ,"
+					+ "user_id, currency_id "
 					+ "FROM accounts WHERE name=? AND user_id=?");
 			ps.setString(1, name);
 			ps.setLong(2, u.getId());
 			
-			ResultSet rs=ps.executeQuery();
+			/*ResultSet rs=ps.executeQuery();
 			account=new Account(rs.getInt(1),//account id
 								rs.getString(2),//account name
 								rs.getDouble(3),//account balance
 								rs.getInt(4),//user_id
 								rs.getInt(5));//currency_id
+								*/
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()) {
+			account=new Account(rs.getInt("id"),//account id
+								rs.getString("name"),//account name
+								rs.getDouble("balance"),//account balance
+								UserDao.getInstance().getUserById(rs.getInt("user_id")),//user
+								CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")));//Currency
+			}else {
+				throw new SQLException("No such account");
+			}
+			
+			
 			
 		} finally {
 			ps.close();
@@ -97,17 +123,23 @@ public class AccountDao implements IAccountDao {
 		ArrayList<Account> accounts=new ArrayList<>();
 		PreparedStatement ps=null;
 		try {
-			ps=connection.prepareStatement("SELECT id, name"
+			ps=connection.prepareStatement("SELECT id, name, "
 					+ "balance,user_id, currency_id FROM accounts WHERE user_id=?");
 			ps.setLong(1, u.getId());
 			
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
-				accounts.add(new Account(rs.getInt(1),//account id
+				/*accounts.add(new Account(rs.getInt(1),//account id
 										 rs.getString(2),//account name
 										 rs.getDouble(3),//account balance
 										 rs.getInt(4),//user_id
 									   	 rs.getInt(5)));//currency_id
+									   	 */
+				accounts.add(new Account(rs.getInt("id"),
+						                 rs.getString("name"),
+						                 rs.getDouble("balance"),
+						                 UserDao.getInstance().getUserById(rs.getInt("user_id")),
+						                 CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id"))));
 			}
 		}finally {
 			ps.close();

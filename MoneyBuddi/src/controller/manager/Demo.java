@@ -3,6 +3,7 @@ package controller.manager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import dao.AccountDao;
 import dao.BudgetDao;
 import dao.CategoryDAO;
 import dao.CurrencyDAO;
@@ -10,6 +11,7 @@ import dao.TransactionDao;
 import dao.TransactionTypeDAO;
 import dao.UserDao;
 import exceptions.InvalidDataException;
+import model.Account;
 import model.Budget;
 import model.Category;
 import model.Currency;
@@ -20,7 +22,7 @@ import model.User;
 public class Demo {
 	
 	
-	public static void main(String[] args) throws InvalidDataException, SQLException {
+	public static void main(String[] args) throws Exception {
 		
 		//UserDAO 
 		//   |
@@ -110,11 +112,19 @@ public class Demo {
 	    //AccountDAO 
 	  	//    |
 	  	//    v
-	    // next
-	  		
+	  
+		//Account acc=new Account("Account14", 232312,
+		//		UserDao.getInstance().getUserById(3) ,
+		//		CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.GBP));
+		//AccountDao.getInstance().addAccount(acc);//WORKS
+		//acc.setBalance(500);
+		//AccountDao.getInstance().updateAccount(acc);//WORKS
 		
-		
-		
+		//AccountDao.getInstance().deleteAccount(acc);//WORKS
+		//Account account=AccountDao.getInstance().getAccountByName("Account14", UserDao.getInstance().getUserById(3));//WORKS
+		//for(Account a:AccountDao.getInstance().getAllAccountsForUser(UserDao.getInstance().getUserById(3))) { //WORKS
+		//	System.out.println(a.getName());
+		//}
 		
 		
 	}
