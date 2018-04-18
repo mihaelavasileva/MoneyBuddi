@@ -16,17 +16,27 @@ public class Account {
 		this.setBalance(balance);
 	}
 	public Account(int id, String name, double balance, User user, 
-			Currency currency) throws InvalidDataException {
+			Currency currency) throws InvalidDataException, exceptions.InvalidDataException {
 		this(id, name, balance);
 		this.setUser(user);
-		this.currency.setId(currency.getId());
+		//this.currency.setId(currency.getId()); 
+		this.setCurrency(currency);
 	}
 	
-	public Account(int id, String name, double balance, int user_id, int currency_id)
+	public Account(int id, String name, double balance,int user_id, int currency_id)
 			throws InvalidDataException {
 		this(id, name, balance);
 		this.user.setId(user_id);
 		this.currency.setId(currency_id);
+	}
+	
+	public Account(String name, double balance,User user, Currency currency)
+			throws InvalidDataException, exceptions.InvalidDataException {
+		this.setName(name);
+		this.setBalance(balance);
+		this.setUser(user);
+		this.setCurrency(currency);
+
 	}
 	
 	//====getters
@@ -45,6 +55,11 @@ public class Account {
 	public int getCurrencyId() {
 		return currency.getId();
 	}
+	
+	public Currency getCurrency() {
+		return currency;
+	}
+
 	//====setters
 	public void setBalance(double balance) {
 		this.balance = balance;
@@ -64,7 +79,16 @@ public class Account {
 		}
 		this.name = name;
 	}
+	
 	public void setCurrencyId(int id) {
 		this.currency.setId(id);;
+	}
+	
+	public void setCurrency(Currency currency) throws exceptions.InvalidDataException {
+		if(currency==null) {
+			throw new exceptions.InvalidDataException("Currency cannot be null");
+		}
+		
+		this.currency=currency;
 	}
 }
