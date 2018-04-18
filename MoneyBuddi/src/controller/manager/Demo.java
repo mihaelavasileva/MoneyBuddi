@@ -16,6 +16,8 @@ import model.Budget;
 import model.Category;
 import model.Currency;
 import model.Currency.CurrencyType;
+import model.Income;
+import model.Transaction;
 import model.Transaction.TransactionType;
 import model.User;
 
@@ -127,6 +129,28 @@ public class Demo {
 		//	System.out.println(a.getName());
 		//}
 		
+		//TransactionDAO
+		//      | 
+		//      V
+		
+		/* Income x=new Income(800,
+				 			CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.BGN),
+				 			AccountDao.getInstance().getAccountById(1), 
+				 			LocalDate.now(), 
+				 			CategoryDAO.getInstance().getCategoryByID(12));
+		 TransactionDao.getInstance().addTransaction(x);//WORKS*/
+		
+		/*
+		 x.setAmount(200);
+		 Thread.sleep(5000);
+		 TransactionDao.getInstance().changeTransaction(x);//WORKS
+		 Thread.sleep(5000);
+		 TransactionDao.getInstance().deleteTransaction(x);//WORKS
+		 */
+		
+		//for(Transaction t:TransactionDao.getInstance().getAllTransactionsByUser(UserDao.getInstance().getUserById(3))) {
+		//	System.out.println(t);//WORKS
+		//}
 		
 	}
 

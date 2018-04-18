@@ -120,4 +120,11 @@ public abstract class Transaction {
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
+	
+	@Override
+	public String toString() {
+		return id+" "+type+" "+ amount+" "+currency.getType()+" "+account.getName()+" "+date+" "+category.getCategory();
+	}
+	
+	
 }

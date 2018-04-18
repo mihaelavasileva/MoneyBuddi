@@ -38,11 +38,13 @@ public class CurrencyDAO implements ICurrencyDAO{
 				if(rs.next()) {//if there is such a row
 					String currency_type=rs.getString("type");//String type from table currencies
 					for(CurrencyType type:Currency.CurrencyType.values()) {
-						if(type.toString().equals(currency_type));
+						if(type.toString().equals(currency_type)) {
 											//checking if there is an enum which 
 						                    //string value equals the type from the table in DB
 						                    //because type in table is String whereas in class is enum
+					   
 						return new Currency(rs.getInt("id"), type);
+						}
 					}
 					
 				}
@@ -59,6 +61,7 @@ public class CurrencyDAO implements ICurrencyDAO{
 			
 			try(ResultSet rs=ps.executeQuery();){
 				if(rs.next()) {//if there is such a row
+
 				  return new Currency(rs.getInt("id"),type);
 						
 				}

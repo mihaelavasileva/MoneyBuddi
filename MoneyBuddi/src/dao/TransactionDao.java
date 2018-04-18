@@ -38,14 +38,15 @@ public class TransactionDao implements ITransactionDao{
 	public void addTransaction(Transaction transaction) throws SQLException {
 		PreparedStatement s = connection.prepareStatement(
 				"INSERT INTO transactions (amount, date, currency_id,"
-				+ "account_id, category_id,transaction_type_id "
+				+ "account_id, category_id,transaction_type_id) "
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 		s.setDouble(1, transaction.getAmount());
 		s.setDate(2, Date.valueOf(LocalDate.now()));
 		s.setInt(3, transaction.getCurrency().getId());
 		s.setInt(4, transaction.getAccount().getId());
 		s.setInt(5, transaction.getCategory().getId());
-		s.setInt(6, transaction.getType().getId());
+		//s.setInt(6, transaction.getType().getId());
+		s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
 
 		int rows = s.executeUpdate();
 		if (rows == 0) {
@@ -106,9 +107,9 @@ public class TransactionDao implements ITransactionDao{
 	@Override
 	public Collection<Transaction> getAllTransactionsByUser(User u) throws SQLException, InvalidDataException {
 		Collection<Transaction> transactions=new ArrayList();
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id, "
-															+ " acccount_id,category_id,transaction_type_id"
-															+ " FROM transactions WHERE user_id=?")){
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
+															+"transaction_type_id FROM transactions " 
+															+"Where account_id in(select id from accounts where user_id=?)")){
 			ps.setInt(1, u.getId());
 			try(ResultSet rs=ps.executeQuery()){
 				while(rs.next()) {
