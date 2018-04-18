@@ -38,11 +38,10 @@ public class CategoryDAO implements ICategoryDAO{
 														  + " WHERE id=?")){
 			ps.setInt(1, id);
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {//if there is such a row
-					return new Category(rs.getInt(id),
-							rs.getString("category"),								   //transaction type id
-							TransactionTypeDAO.getInstance().getTypeById(rs.getInt("operation_type_id")),
+				if(rs.next()) {//if there is such a row
+					return new Category(rs.getInt("id"),
+							rs.getString("category"),								   
+							TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
 							rs.getInt("user_id")
 							);
 				}
@@ -76,9 +75,11 @@ public class CategoryDAO implements ICategoryDAO{
 			 Collection<Category> categories=new ArrayList<>();	//JOIN maybe?//transaction type
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
 				                                             +"WHERE user_id IS NULL or user_id=?" )){
+
 			ps.setInt(1, (int) user.getId());//what if user id is null
 			try(ResultSet rs=ps.executeQuery();){
 				while(rs.next()) {
+					
 					categories.add(new Category(rs.getInt("id"),
 												rs.getString("category"),
 												TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
@@ -95,18 +96,20 @@ public class CategoryDAO implements ICategoryDAO{
 		
 		 Collection<Category> categories=new ArrayList<>();	
 		 int id=TransactionTypeDAO.getInstance().getIdByTranscationType(type);
-		 
+		 System.out.println(1);
 		 try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
                  +"WHERE (user_id IS NULL OR user_id=?) and "
                  + "transaction_type_id=? " )){
 			 ps.setInt(1, (int) user.getId());//what if user id is null
 			 ps.setInt(2, id);
+		
 			 try(ResultSet rs=ps.executeQuery();){
 				 while(rs.next()) {
+					
 					 categories.add(new Category(rs.getInt("id"),
-							 rs.getString("category"),
-							 type,
-							 rs.getInt("user_id")));
+							 					 rs.getString("category"),
+							 					 type,
+							 					 rs.getInt("user_id")));
 				 }
 			 }
 		 }

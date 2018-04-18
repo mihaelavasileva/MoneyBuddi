@@ -32,8 +32,8 @@ public class TransactionTypeDAO implements ITransactionTypeDAO{
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name FROM transaction_types WHERE id=?");){
 			ps.setInt(1, id);
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {//if there is such a row
+				
+				if(rs.next()) {//if there is such a row
 					String type_name=rs.getString("name");
 					for(TransactionType type:TransactionType.values()) {
 								//checking if there is an enum which 
@@ -54,7 +54,6 @@ public class TransactionTypeDAO implements ITransactionTypeDAO{
 		String type=t.toString();
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM transaction_types WHERE name=?")){
 			ps.setString(1, type);
-			System.out.println(type);
 			
 			try(ResultSet rs=ps.executeQuery()){
 				if(rs.next()) {

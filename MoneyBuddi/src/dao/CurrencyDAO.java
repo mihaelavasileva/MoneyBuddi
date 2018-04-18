@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import controller.manager.DBManager;
 import model.Currency;
 import model.Currency.CurrencyType;
 
@@ -22,17 +23,17 @@ public class CurrencyDAO implements ICurrencyDAO{
 	}
 
 	private CurrencyDAO() {
-		//connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 
 	@Override
 	public Currency getCurrencyById(int id) throws SQLException {
    
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,type FROM currencies WHERE id=?");){
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,type FROM currencies WHERE id=?")){
 			ps.setInt(1, id);
+			
 			try(ResultSet rs=ps.executeQuery();){
-				rs.next();
-				if(rs.getInt(1)==1) {//if there is such a row
+				if(rs.next()) {//if there is such a row
 					String currency_type=rs.getString("type");//String type from table currencies
 					for(CurrencyType type:Currency.CurrencyType.values()) {
 						if(type.toString().equals(currency_type));
