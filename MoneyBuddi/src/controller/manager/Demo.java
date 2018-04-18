@@ -1,14 +1,19 @@
 package controller.manager;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
+import dao.BudgetDao;
 import dao.CategoryDAO;
 import dao.CurrencyDAO;
 import dao.TransactionDao;
 import dao.TransactionTypeDAO;
 import dao.UserDao;
 import exceptions.InvalidDataException;
+import model.Budget;
 import model.Category;
+import model.Currency;
+import model.Currency.CurrencyType;
 import model.Transaction.TransactionType;
 import model.User;
 
@@ -25,7 +30,7 @@ public class Demo {
 		//UserDao.getInstance().saveUser(u);									//WORKS
 		//System.out.println(UserDao.getInstance().checkIfEmailExists("Lesho"));//WORKS
 		//System.out.println(UserDao.getInstance().checkIfEmailExists("Pesho"));//WORKS
-	    //User x=UserDao.getInstance().getUserById(3);							//WORKS
+	    // User x=UserDao.getInstance().getUserById(3);							//WORKS
 		//x.setAge(30);
 		//User x=UserDao.getInstance().getUserByUsername("Pesho");			    //WORKS
 		//UserDao.getInstance().deleteUser(x);                                  //WORKS
@@ -42,7 +47,7 @@ public class Demo {
 		//Category category=new Category("bar", TransactionType.EXPENSE,3);
 	
 		//CategoryDAO.getInstance().addCategory(category);                      //WORKS
-		//
+		
 	   
 		
 		//for(Category y:CategoryDAO.getInstance().getAllCategoriesByUser(x)) {
@@ -71,12 +76,46 @@ public class Demo {
 	  	//    |
 	  	//    v
 	    // System.out.println(CurrencyDAO.getInstance().getCurrencyById(1)); //WORKS
+		// System.out.println(CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.BGN));//WORKS
+		
+		//BudgetDAO 
+	  	//    |
+	  	//    v
+		
+	    /* User user=UserDao.getInstance().getUserById(3);
+	     Category cat=null;
+	     
+	     for(Category y:CategoryDAO.getInstance().getAllCategoriesByUser(user)) {
+	    	 
+	 			cat=y;
+	 				
+	 		}	
+	    
+		Currency currency=CurrencyDAO.getInstance().getCurrencyByType(Currency.CurrencyType.EUR);
+		
+		Budget b=new Budget(cat, 5000, user, currency, LocalDate.now(), LocalDate.now().plusDays(30));
+		
+		//BudgetDao.getInstance().addBudget(b);//WORKS
+		
+		Budget budget=null;
+		for(Budget bud:BudgetDao.getInstance().getAllBudgetsForUser(user)) {//WORKS
+			budget=bud;
+		}
+		budget.setAmount(300);
+		BudgetDao.getInstance().updateBudget(budget);//WORKS
+		BudgetDao.getInstance().deleteBudget(budget);//WORKS
+		
+		*/
 	    
 	    //AccountDAO 
 	  	//    |
 	  	//    v
 	    // next
 	  		
+		
+		
+		
+		
 		
 	}
 

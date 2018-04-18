@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import controller.manager.DBManager;
 import exceptions.InvalidDataException;
 import model.Budget;
 import model.User;
@@ -26,7 +27,7 @@ public class BudgetDao implements IBudgetDAO{
 	}
 
 	private BudgetDao() {
-		//connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 
 	@Override

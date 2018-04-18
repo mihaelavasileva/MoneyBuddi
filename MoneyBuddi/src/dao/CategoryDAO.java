@@ -116,6 +116,19 @@ public class CategoryDAO implements ICategoryDAO{
 		 return categories;
 		
 	}
+
+	@Override
+	public void deleteCategory(int id) throws SQLException {
+		
+		try(PreparedStatement ps=connection.prepareStatement("DELETE FROM categories WHERE id=? and user_id IS NOT NULL")){
+			ps.setInt(1, id);
+			int rows=ps.executeUpdate();
+			if(rows==0) {
+				throw new SQLException("Srry category can't be deleted");
+			}
+		}
+		
+	}
 	
 	
 

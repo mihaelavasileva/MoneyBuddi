@@ -49,6 +49,22 @@ public class CurrencyDAO implements ICurrencyDAO{
 		return null;
 		
 	}
+
+	@Override
+	public Currency getCurrencyByType(CurrencyType type) throws SQLException {
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,type FROM currencies WHERE type=?")){
+			ps.setString(1, type.toString());
+			
+			try(ResultSet rs=ps.executeQuery();){
+				if(rs.next()) {//if there is such a row
+				  return new Currency(rs.getInt("id"),type);
+						
+				}
+			}
+		}
+		return null;
+		
+	}
 	
 	
 	
