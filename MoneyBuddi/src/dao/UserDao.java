@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import controller.manager.DBManager;
 import exceptions.InvalidDataException;
 
 import java.sql.Connection;
@@ -24,13 +25,14 @@ public class UserDao implements IUserDao {
 	}
 
 	private UserDao() {
-		// connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 
 	@Override
 	public void saveUser(User u) throws SQLException {
 		PreparedStatement s = connection.prepareStatement(
-				"INSERT INTO users (username, " + "password, email, age)" + " VALUES (?,?,?,?)",
+				"INSERT INTO users (username, " + "password, email, age)" 
+		+ " VALUES (?,?,?,?)",
 				Statement.RETURN_GENERATED_KEYS);
 		s.setString(1, u.getUsername());
 		s.setString(2, u.getPassword());

@@ -8,12 +8,25 @@ public class Account {
 	private String name;
 	private double balance;
 	private User user;
+	private Currency currency;
 
-	public Account(int id, String name, double balance, User user) throws InvalidDataException {
+	private Account(int id, String name, double balance)throws InvalidDataException {
 		this.setId(id);
 		this.setName(name);
 		this.setBalance(balance);
+	}
+	public Account(int id, String name, double balance, User user, 
+			Currency currency) throws InvalidDataException {
+		this(id, name, balance);
 		this.setUser(user);
+		this.currency.setId(currency.getId());
+	}
+	
+	public Account(int id, String name, double balance, int user_id, int currency_id)
+			throws InvalidDataException {
+		this(id, name, balance);
+		this.user.setId(user_id);
+		this.currency.setId(currency_id);
 	}
 	
 	//====getters
@@ -28,6 +41,9 @@ public class Account {
 	}
 	public User getUser() {
 		return user;
+	}
+	public int getCurrencyId() {
+		return currency.getId();
 	}
 	//====setters
 	public void setBalance(double balance) {
@@ -47,5 +63,8 @@ public class Account {
 			throw new InvalidDataException("The name of the transaction cannot be null or empty.");
 		}
 		this.name = name;
+	}
+	public void setCurrencyId(int id) {
+		this.currency.setId(id);;
 	}
 }

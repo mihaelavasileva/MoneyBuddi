@@ -9,8 +9,8 @@ import model.User;
 
 public interface IAccountDao {
 
-	void addAccount(Account account, User u, Currency currency) throws SQLException;
-	void updateAccount(Account account, User u,Currency currency) throws SQLException;
+	void addAccount(Account account) throws SQLException;
+	void updateAccount(Account account) throws SQLException;
 	void deleteAccount(Account account) throws SQLException;
 	Account getAccountByName(String name, User u) throws Exception;
 	List<Account> getAllAccountsForUser(User u) throws Exception;
