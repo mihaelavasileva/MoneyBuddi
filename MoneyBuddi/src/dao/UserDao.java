@@ -11,6 +11,7 @@ import exceptions.InvalidDataException;
 import java.sql.Connection;
 
 import model.User;
+import security.BCrypt;
 
 public class UserDao implements IUserDao {
 
@@ -172,6 +173,7 @@ public class UserDao implements IUserDao {
 		   
 			status=rs.next();
 			
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Exception");
@@ -185,22 +187,23 @@ public class UserDao implements IUserDao {
 	@Override
 	public User getUserByUsernameAndPassword(String pass, String username) throws SQLException,
 	InvalidDataException {
-		String sql = "SELECT id, username, password, email, age FROM users WHERE username = ?"
-				+ " AND password = ?";
+		String sql = "SELECT id, username, password, email, age FROM users WHERE username = ?";
+				
 		PreparedStatement ps = connection.prepareStatement(sql);
 		ps.setString(1, username);
-		ps.setString(2, pass);
+		
 		ResultSet result = ps.executeQuery();
 		if(result.next()) {
+			String hashed=result.getString("password");
+			if(BCrypt.checkpw(pass, hashed)) {
 			return new User(result.getInt("id"),
 					result.getString("username"),
 					result.getString("password"),
 					result.getString("email"),
 					result.getInt("age"));
+				}
 			}
-		else {
-			return null;
-		}
+		return null;
 	}
 	
 }

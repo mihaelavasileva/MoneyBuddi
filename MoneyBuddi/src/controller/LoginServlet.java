@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDao;
 import exceptions.InvalidDataException;
 import model.User;
+import security.BCrypt;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -20,9 +21,12 @@ public class LoginServlet extends HttpServlet {
 		try {
 			String username = request.getParameter("username");			
 			String pass = request.getParameter("password");
+			
 						
-			User u = UserDao.getInstance().getUserByUsernameAndPassword(pass, username);			
+			User u = UserDao.getInstance().getUserByUsernameAndPassword(pass, username);
+			
 			if(u != null) {
+				System.out.println(u.getPassword());
 				request.getSession().setAttribute("user", u);
 				//TODO create main.jsp
 				request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
