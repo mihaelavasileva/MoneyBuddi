@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+import controller.manager.DBManager;
 import model.Transaction;
 
 public class TransactionDao implements ITransactionDao{
@@ -23,7 +24,7 @@ public class TransactionDao implements ITransactionDao{
 	}
 
 	private TransactionDao() {
-		//connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 	
 	@Override

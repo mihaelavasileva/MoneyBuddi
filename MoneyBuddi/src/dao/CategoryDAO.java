@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import controller.manager.DBManager;
 import exceptions.InvalidDataException;
 import model.Category;
 import model.Transaction;
@@ -27,21 +28,20 @@ public class CategoryDAO implements ICategoryDAO{
 	}
 
 	private CategoryDAO() {
-		//connection = DBManager.getInstance().getConnection();
+		connection = DBManager.getInstance().getConnection();
 	}
 
 	@Override
 	public Category getCategoryByID(int id) throws SQLException, InvalidDataException {
 															//could be done with join
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,operation_type_id,user_id FROM categories "
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
 														  + " WHERE id=?")){
 			ps.setInt(1, id);
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {//if there is such a row
-					return new Category(rs.getInt(id),
-							rs.getString("category"),								   //transaction type id
-							FinanceOperationTypeDAO.getInstance().getTypeById(rs.getInt("operation_type_id")),
+				if(rs.next()) {//if there is such a row
+					return new Category(rs.getInt("id"),
+							rs.getString("category"),								   
+							TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
 							rs.getInt("user_id")
 							);
 				}
@@ -54,11 +54,14 @@ public class CategoryDAO implements ICategoryDAO{
 	@Override
 	public void addCategory(Category category) throws SQLException {
 													  //could be done with join 		//transaction type id
-		try(PreparedStatement ps=connection.prepareStatement("INSERT INTO categories (id,category,operation_type_id,user_id)"
-															+"VALUES (?,?,?,?)");){
-			ps.setInt(1, category.getId());
-			ps.setString(2, category.getCategory());
-			ps.setInt(3, FinanceOperationTypeDAO.getInstance().getIdByTranscationType(category.getType()));//
+		try(PreparedStatement ps=connection.prepareStatement("INSERT INTO categories (category,transaction_type_id,user_id)"
+															+"VALUES (?,?,?)");){
+			
+			ps.setString(1, category.getCategory());
+			ps.setInt(2, TransactionTypeDAO.getInstance().getIdByTranscationType(category.getType()));
+			ps.setInt(3, category.getUserId());
+			
+			//
 			int rows=ps.executeUpdate();
 			if(rows==0) {
 				throw new SQLException("Srry category cant be inserted ");
@@ -70,14 +73,16 @@ public class CategoryDAO implements ICategoryDAO{
 	@Override
 	public Collection<Category> getAllCategoriesByUser(User user) throws SQLException, InvalidDataException {
 			 Collection<Category> categories=new ArrayList<>();	//JOIN maybe?//transaction type
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,operation_type_id,user_id FROM categories"
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
 				                                             +"WHERE user_id IS NULL or user_id=?" )){
+
 			ps.setInt(1, (int) user.getId());//what if user id is null
 			try(ResultSet rs=ps.executeQuery();){
 				while(rs.next()) {
+					
 					categories.add(new Category(rs.getInt("id"),
 												rs.getString("category"),
-												FinanceOperationTypeDAO.getInstance().getTypeById(rs.getInt("operation_type_id")),
+												TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
 												rs.getInt("user_id")));
 				}
 			}
@@ -90,22 +95,38 @@ public class CategoryDAO implements ICategoryDAO{
 			throws SQLException, InvalidDataException {
 		
 		 Collection<Category> categories=new ArrayList<>();	
-		 int id=FinanceOperationTypeDAO.getInstance().getIdByTranscationType(type);
-		 
-		 try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,operation_type_id,user_id FROM categories"
-                 +"WHERE (user_id IS NULL OR user_id=?) and operation_type_id=? " )){
+		 int id=TransactionTypeDAO.getInstance().getIdByTranscationType(type);
+		 System.out.println(1);
+		 try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
+                 +"WHERE (user_id IS NULL OR user_id=?) and "
+                 + "transaction_type_id=? " )){
 			 ps.setInt(1, (int) user.getId());//what if user id is null
 			 ps.setInt(2, id);
+		
 			 try(ResultSet rs=ps.executeQuery();){
 				 while(rs.next()) {
+					
 					 categories.add(new Category(rs.getInt("id"),
-							 rs.getString("category"),
-							 type,
-							 rs.getInt("user_id")));
+							 					 rs.getString("category"),
+							 					 type,
+							 					 rs.getInt("user_id")));
 				 }
 			 }
 		 }
 		 return categories;
+		
+	}
+
+	@Override
+	public void deleteCategory(int id) throws SQLException {
+		
+		try(PreparedStatement ps=connection.prepareStatement("DELETE FROM categories WHERE id=? and user_id IS NOT NULL")){
+			ps.setInt(1, id);
+			int rows=ps.executeUpdate();
+			if(rows==0) {
+				throw new SQLException("Srry category can't be deleted");
+			}
+		}
 		
 	}
 	

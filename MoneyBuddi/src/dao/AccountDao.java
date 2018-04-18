@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.manager.DBManager;
 import model.Account;
 import model.Currency;
 import model.User;
@@ -24,7 +25,7 @@ public class AccountDao implements IAccountDao {
 	}
 
 	private AccountDao() {
-		// connection = DBManager.getInstance().getConnection();
+		 connection = DBManager.getInstance().getConnection();
 	}
 	
 	@Override

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import model.Transaction.TransactionType;
 
-public interface IFinanceOperationTypeDAO {
+public interface ITransactionTypeDAO {
 	
 	 TransactionType getTypeById(int id) throws SQLException;
 	 

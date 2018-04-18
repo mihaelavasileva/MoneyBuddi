@@ -101,12 +101,13 @@ public class UserDao implements IUserDao {
 					+ "email,age FROM users WHERE id=?");
 			ps.setInt(1, id);
 			ResultSet result = ps.executeQuery();
-			// create the user
-			user = new User(id, result.getString(1), // get user`s username
-					result.getString(2), // get user`s password
-					result.getString(3), // get user`s email
-					result.getInt(4));// get user`s age
+			result.next();
+			user = new User(id, result.getString("username"), // get user`s username
+					result.getString("password"), // get user`s password
+					result.getString("email"), // get user`s email
+					result.getInt("age"));// get user`s age
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new SQLException("No user with id=" + id);
 		} finally {
 			ps.close();
@@ -123,12 +124,13 @@ public class UserDao implements IUserDao {
 					+ "email,age FROM users WHERE username=?");
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
+			result.next();
 			// create the user
-			user = new User((int)result.getLong(1),//get id
+			user = new User(result.getInt("id"),//get id
 					username,
-					result.getString(2),//get password
-					result.getString(3),//get email
-					result.getInt(4));//get age
+					result.getString("password"),//get password
+					result.getString("email"),//get email
+					result.getInt("age"));//get age
 		} catch (Exception e) {
 			throw new SQLException("No user with username:" + username);
 		} finally {
@@ -138,11 +140,17 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public int checkIfEmailExists(String email) throws SQLException {
+	public boolean checkIfEmailExists(String email) throws SQLException {
 		// checks if the email already exists in DB
 		// returns number of affected rows from the query
 		PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM" + " users WHERE email=?");
-		return ps.executeUpdate();
+		ps.setString(1, email);
+		ResultSet rs= ps.executeQuery();
+		rs.next();
+		if(rs.getInt(1)==1) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
@@ -150,16 +158,23 @@ public class UserDao implements IUserDao {
 		boolean status=false;
 		PreparedStatement ps=null;
 		try{  
+			
 			ps=connection.prepareStatement(  
-			    "SELECT COUNT(id) FROM users WHERE username=? AND pass=?");  
+			    "SELECT id FROM users WHERE username=? AND password=?");  
+		
+			    //COUNT(id) go smenih shtoto shteshe da vrushta red nezavisimo dali
+			    //sushtesvuva toq user i status=rs.next() shteshe da vrushta true vinagi
 		
 			ps.setString(1,username);  
 			ps.setString(2, pass);  
 			              
-			ResultSet rs=ps.executeQuery();  
+			ResultSet rs=ps.executeQuery();
+		   
 			status=rs.next();
-		}catch(Exception e){
 			
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Exception");
 		}finally {
 			ps.close();
 		}

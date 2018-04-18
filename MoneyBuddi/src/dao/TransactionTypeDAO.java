@@ -5,34 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import controller.manager.DBManager;
 import model.Transaction.TransactionType;
 
-public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
+public class TransactionTypeDAO implements ITransactionTypeDAO{
 	
 	
-	private static FinanceOperationTypeDAO instance;
+	private static TransactionTypeDAO instance;
 	private Connection connection;
 
-	public synchronized static FinanceOperationTypeDAO getInstance() {
+	public synchronized static TransactionTypeDAO getInstance() {
 		if (instance == null) {
-			instance = new FinanceOperationTypeDAO();
+			instance = new TransactionTypeDAO();
 		}
 		return instance;
 	}
 
-	private FinanceOperationTypeDAO() {
-		//connection = DBManager.getInstance().getConnection();
+	private TransactionTypeDAO() {
+		connection = DBManager.getInstance().getConnection();
 	}
 	
 
 	@Override
 	public TransactionType getTypeById(int id) throws SQLException {
 		
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name FROM finance_operation_types WHERE id=?");){
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name FROM transaction_types WHERE id=?");){
 			ps.setInt(1, id);
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {//if there is such a row
+				
+				if(rs.next()) {//if there is such a row
 					String type_name=rs.getString("name");
 					for(TransactionType type:TransactionType.values()) {
 								//checking if there is an enum which 
@@ -50,14 +51,15 @@ public class FinanceOperationTypeDAO implements IFinanceOperationTypeDAO{
 
 	@Override
 	public int getIdByTranscationType(TransactionType t) throws SQLException {
-		
-		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM operation_types WHERE name=?")){
-			ps.setString(1, t.toString());
+		String type=t.toString();
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id FROM transaction_types WHERE name=?")){
+			ps.setString(1, type);
+			
 			try(ResultSet rs=ps.executeQuery()){
-				rs.next();
-				if(rs.getInt(1)==1) {
+				if(rs.next()) {
 					return rs.getInt("id");
 				}
+					
 			}
 		}
 		return 0;
