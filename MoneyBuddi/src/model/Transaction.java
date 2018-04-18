@@ -99,7 +99,10 @@ public abstract class Transaction {
 		this.currency = currency;
 	}
 	
-	public void setAccount(Account account) {
+	public void setAccount(Account account) throws InvalidDataException {
+		if(account==null) {
+			throw new InvalidDataException ("Srry account can't be null");
+		}
 		this.account = account;
 	}
 	

@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 import controller.manager.DBManager;
 import model.Account;
 import model.Currency;
@@ -146,6 +148,23 @@ public class AccountDao implements IAccountDao {
 		}
 		
 		return accounts;
+	}
+
+	@Override
+	public Account getAccountById(int id) throws SQLException, exceptions.InvalidDataException {
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name,balance,user_id,currency_id FROM accounts WHERE id=?")){
+			ps.setInt(1, id);
+			try(ResultSet rs=ps.executeQuery()){
+				if(rs.next()) {
+					return new Account(rs.getInt("id"),
+							           rs.getString("name"),
+							           rs.getDouble("balance"),
+							           UserDao.getInstance().getUserById(rs.getInt("user_id")),
+							           CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")));
+				}
+			}
+		}
+		return null;
 	}
 
 }

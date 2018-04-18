@@ -7,9 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import controller.manager.DBManager;
+import exceptions.InvalidDataException;
+import model.Expense;
+import model.Income;
 import model.Transaction;
+import model.Transaction.TransactionType;
+import model.User;
 
 public class TransactionDao implements ITransactionDao{
 
@@ -31,7 +38,7 @@ public class TransactionDao implements ITransactionDao{
 	public void addTransaction(Transaction transaction) throws SQLException {
 		PreparedStatement s = connection.prepareStatement(
 				"INSERT INTO transactions (amount, date, currency_id,"
-				+ "account_id, category_id,transaction_type_id"
+				+ "account_id, category_id,transaction_type_id "
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 		s.setDouble(1, transaction.getAmount());
 		s.setDate(2, Date.valueOf(LocalDate.now()));
@@ -76,7 +83,7 @@ public class TransactionDao implements ITransactionDao{
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement("UPDATE transactions SET amount=?, date=?,"
-					+ "currency_id=?, account_id=?, category_id=?, transaction_type_id=?"
+					+ "currency_id=?, account_id=?, category_id=?, transaction_type_id=? "
 					+ "WHERE id=?");
 			ps.setDouble(1, transaction.getAmount());
 			ps.setDate(2, transaction.getDate());
@@ -94,6 +101,39 @@ public class TransactionDao implements ITransactionDao{
 		}
 
 		System.out.println("Transaction updated.");
+	}
+
+	@Override
+	public Collection<Transaction> getAllTransactionsByUser(User u) throws SQLException, InvalidDataException {
+		Collection<Transaction> transactions=new ArrayList();
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id, "
+															+ " acccount_id,category_id,transaction_type_id"
+															+ " FROM transactions WHERE user_id=?")){
+			ps.setInt(1, u.getId());
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.EXPENSE)) {
+					transactions.add(    new Expense(rs.getInt("id"),
+							                         rs.getDouble("amount"),
+							                         CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							                         AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+							                         rs.getDate("date").toLocalDate(),
+							                         CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+					}else if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.INCOME)){
+						transactions.add(    new Income(rs.getInt("id"),
+		                                                rs.getDouble("amount"),
+		                                                CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+		                                                AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+		                                                rs.getDate("date").toLocalDate(),
+		                                                CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+						
+					}
+				}
+			}
+			
+			
+		}
+		return transactions;
 	}
 
 }

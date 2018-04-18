@@ -10,13 +10,13 @@ public class Account {
 	private User user;
 	private Currency currency;
 
-	private Account(int id, String name, double balance)throws InvalidDataException {
+	private Account(int id, String name, double balance) throws exceptions.InvalidDataException {
 		this.setId(id);
 		this.setName(name);
 		this.setBalance(balance);
 	}
 	public Account(int id, String name, double balance, User user, 
-			Currency currency) throws InvalidDataException, exceptions.InvalidDataException {
+			Currency currency) throws  exceptions.InvalidDataException {
 		this(id, name, balance);
 		this.setUser(user);
 		//this.currency.setId(currency.getId()); 
@@ -24,14 +24,14 @@ public class Account {
 	}
 	
 	public Account(int id, String name, double balance,int user_id, int currency_id)
-			throws InvalidDataException {
+			throws  exceptions.InvalidDataException {
 		this(id, name, balance);
 		this.user.setId(user_id);
 		this.currency.setId(currency_id);
 	}
 	
 	public Account(String name, double balance,User user, Currency currency)
-			throws InvalidDataException, exceptions.InvalidDataException {
+			throws  exceptions.InvalidDataException {
 		this.setName(name);
 		this.setBalance(balance);
 		this.setUser(user);
@@ -67,15 +67,15 @@ public class Account {
 	public void setId(long id) {
 		this.id = (int)id;
 	}
-	public void setUser(User user) throws InvalidDataException {
+	public void setUser(User user) throws exceptions.InvalidDataException {
 		if(user == null) {
-			throw new InvalidDataException("User cannot be null.");
+			throw new exceptions.InvalidDataException("User cannot be null.");
 		}
 		this.user = user;
 	}
-	public void setName(String name) throws InvalidDataException {
+	public void setName(String name) throws exceptions.InvalidDataException {
 		if(name==null || name.isEmpty()) {
-			throw new InvalidDataException("The name of the transaction cannot be null or empty.");
+			throw new exceptions.InvalidDataException("The name of the transaction cannot be null or empty.");
 		}
 		this.name = name;
 	}

@@ -113,10 +113,11 @@ public class Demo {
 	  	//    |
 	  	//    v
 	  
-		//Account acc=new Account("Account14", 232312,
-		//		UserDao.getInstance().getUserById(3) ,
-		//		CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.GBP));
+		//Account acc=new Account("Account16", 232312,
+		//						  UserDao.getInstance().getUserById(3) ,
+		//						  CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.GBP));
 		//AccountDao.getInstance().addAccount(acc);//WORKS
+		//System.out.println(AccountDao.getInstance().getAccountById(acc.getId()));WORKS
 		//acc.setBalance(500);
 		//AccountDao.getInstance().updateAccount(acc);//WORKS
 		

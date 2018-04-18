@@ -21,5 +21,7 @@ public interface ICategoryDAO {
 	
 	Collection<Category> getAllCategoriesByUserAndType(User user,TransactionType type) throws SQLException,InvalidDataException;
 	
+	
+	
 
 }
