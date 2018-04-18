@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDao;
 import exceptions.InvalidDataException;
 import model.User;
+import security.BCrypt;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -37,6 +38,7 @@ public class RegisterServlet extends HttpServlet {
 				throw new InvalidDataException("The age must be a number between 14 and 100.");
 			}
 			//create user
+			pass1=BCrypt.hashpw(pass1, BCrypt.gensalt());
 			User u = new User(username, pass1, email, age);
 			//add to db
 			UserDao.getInstance().saveUser(u);
