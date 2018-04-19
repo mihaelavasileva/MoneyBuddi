@@ -81,6 +81,9 @@ public class Demo {
 	  	//    v
 	    // System.out.println(CurrencyDAO.getInstance().getCurrencyById(1)); //WORKS
 		// System.out.println(CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.BGN));//WORKS
+		/*System.out.println(CurrencyConverter.convert(20,CurrencyDAO.getInstance().
+				getCurrencyByType(CurrencyType.BGN),CurrencyDAO.
+				getInstance().getCurrencyByType(CurrencyType.RUB)));*///WORKS
 		
 		//BudgetDAO 
 	  	//    |
