@@ -10,6 +10,6 @@
 <h1>Error!!!</h1>
 <%Exception e=(Exception) request.getAttribute("exception"); %>
 <h2>Reason: <%= e.getMessage() %> </h2>
-<a href="index.jsp">Back to login</a>
+<a href="login.html">Back to login</a>
 </body>
 </html>

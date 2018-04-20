@@ -38,6 +38,8 @@ public class RegisterServlet extends HttpServlet {
 			//forward to login OR main
 			//TODO create main.jsp
 			request.getRequestDispatcher("main.jsp").forward(request, response);
+
+			return;
 					}
 					throw new InvalidDataException("Email is already in use");
 				}
@@ -46,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
 		}
 		catch (InvalidDataException e) {
 			request.setAttribute("exception", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher("register.jsp").forward(request, response);
 		}
 		catch (Exception e) {
 			request.setAttribute("exception", e);
