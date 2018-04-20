@@ -12,8 +12,10 @@
 		<h1><%= LocalDate.now() %></h1>
 		<button type="button" onclick="location.href='addincome'">Add Income</button>
 		<button type="button" onclick="location.href='addexpense'">Add Expense</button>
+		<button type="button" onclick="location.href='createcategory.jsp'">New Category</button>
+		
+		                                 
 	</div>
-
 
 </body>
 </html>
