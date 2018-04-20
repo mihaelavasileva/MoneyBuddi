@@ -21,6 +21,7 @@ public class AddIncomeServlet extends HttpServlet {
    
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//retrieve all categories from db and pass them to the request
 		try {
 			//get all categories
 			//get the user id from session and then retrieve from db by that id
