@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
 			request.getSession().setAttribute("user", u);
 			//forward to login OR main
 			//TODO create main.jsp
-			request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+			request.getRequestDispatcher("main.jsp").forward(request, response);
 					}
 					throw new InvalidDataException("Email is already in use");
 				}
