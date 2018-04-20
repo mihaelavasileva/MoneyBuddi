@@ -10,8 +10,8 @@
 <body>
 	<div>
 		<h1><%= LocalDate.now() %></h1>
-		<button type="button" onclick="location.href='addincome.jsp'">Add Income</button>
-		<button type="button" onclick="location.href='addexpense.jsp'">Add Expense</button>
+		<button type="button" onclick="location.href='addincome'">Add Income</button>
+		<button type="button" onclick="location.href='addexpense'">Add Expense</button>
 	</div>
 
 

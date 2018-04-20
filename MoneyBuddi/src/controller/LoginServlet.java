@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
 				System.out.println(u.getPassword());
 				request.getSession().setAttribute("user", u);
 				//TODO create main.jsp
-				request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+				request.getRequestDispatcher("main.jsp").forward(request, response);
 			}
 			else {	
 				throw new InvalidDataException("invalid username or password");

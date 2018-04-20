@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import controller.manager.DBManager;
 import exceptions.InvalidDataException;
@@ -91,10 +92,11 @@ public class CategoryDAO implements ICategoryDAO{
 	}
 
 	@Override
-	public Collection<Category> getAllCategoriesByUserAndType(User user, TransactionType type)
+	//changed the return type from Collection to List
+	public List<Category> getAllCategoriesByUserAndType(User user, TransactionType type)
 			throws SQLException, InvalidDataException {
 		
-		 Collection<Category> categories=new ArrayList<>();	
+		 List<Category> categories=new ArrayList<>();	
 		 int id=TransactionTypeDAO.getInstance().getIdByTranscationType(type);
 		 System.out.println(1);
 		 try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
