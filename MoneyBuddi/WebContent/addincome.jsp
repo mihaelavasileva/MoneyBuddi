@@ -4,9 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Add Income</title>
 </head>
 <body>
 <h1>Income</h1>
+	<div>
+		<form >
+			<input type="number" name="amount" required><br>
+			<select name="category" value="choose category" required><br>
+			</select>
+			<input type="text" name="description" value="add note"><br>
+			<input type="button" value="close">
+			<input type="submit" value="save">
+		</form>
+	</div>
 </body>
 </html>
