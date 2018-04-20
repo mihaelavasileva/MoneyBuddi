@@ -11,7 +11,7 @@
 		Username<input type=text name="username" required><br>
 		Password<input type=password name="password" required><br>
 		<input type=submit value="Login">
-		<a href="register.jsp">Register here</a>&nbsp;if you don`t have an account!
+		<a href="Register.html">Register here</a>&nbsp;if you don`t have an account!
 	</form>
 </body>
 </html>

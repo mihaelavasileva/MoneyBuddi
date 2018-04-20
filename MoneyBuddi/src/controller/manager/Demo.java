@@ -155,6 +155,8 @@ public class Demo {
 		//	System.out.println(t);//WORKS
 		//}
 		
+		System.out.println(UserDao.getInstance().checkIfEmailExists("kriskata@abv.bg"));
+		
 	}
 
 }

@@ -125,13 +125,15 @@ public class UserDao implements IUserDao {
 					+ "email,age FROM users WHERE username=?");
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
-			result.next();
+			
+			if(result.next()) {
 			// create the user
 			user = new User(result.getInt("id"),//get id
 					username,
 					result.getString("password"),//get password
 					result.getString("email"),//get email
 					result.getInt("age"));//get age
+			}
 		} catch (Exception e) {
 			throw new SQLException("No user with username:" + username);
 		} finally {
@@ -144,7 +146,7 @@ public class UserDao implements IUserDao {
 	public boolean checkIfEmailExists(String email) throws SQLException {
 		// checks if the email already exists in DB
 		// returns number of affected rows from the query
-		PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM" + " users WHERE email=?");
+		PreparedStatement ps = connection.prepareStatement("SELECT id FROM" + " users WHERE email=?");
 		ps.setString(1, email);
 		ResultSet rs= ps.executeQuery();
 		if(rs.next()) {
