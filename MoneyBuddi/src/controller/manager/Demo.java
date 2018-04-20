@@ -16,6 +16,8 @@ import model.Budget;
 import model.Category;
 import model.Currency;
 import model.Currency.CurrencyType;
+import model.Income;
+import model.Transaction;
 import model.Transaction.TransactionType;
 import model.User;
 
@@ -79,6 +81,9 @@ public class Demo {
 	  	//    v
 	    // System.out.println(CurrencyDAO.getInstance().getCurrencyById(1)); //WORKS
 		// System.out.println(CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.BGN));//WORKS
+		/*System.out.println(CurrencyConverter.convert(20,CurrencyDAO.getInstance().
+				getCurrencyByType(CurrencyType.BGN),CurrencyDAO.
+				getInstance().getCurrencyByType(CurrencyType.RUB)));*///WORKS
 		
 		//BudgetDAO 
 	  	//    |
@@ -113,10 +118,11 @@ public class Demo {
 	  	//    |
 	  	//    v
 	  
-		//Account acc=new Account("Account14", 232312,
-		//		UserDao.getInstance().getUserById(3) ,
-		//		CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.GBP));
+		//Account acc=new Account("Account16", 232312,
+		//						  UserDao.getInstance().getUserById(3) ,
+		//						  CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.GBP));
 		//AccountDao.getInstance().addAccount(acc);//WORKS
+		//System.out.println(AccountDao.getInstance().getAccountById(acc.getId()));WORKS
 		//acc.setBalance(500);
 		//AccountDao.getInstance().updateAccount(acc);//WORKS
 		
@@ -126,6 +132,28 @@ public class Demo {
 		//	System.out.println(a.getName());
 		//}
 		
+		//TransactionDAO
+		//      | 
+		//      V
+		
+		/* Income x=new Income(800,
+				 			CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.BGN),
+				 			AccountDao.getInstance().getAccountById(1), 
+				 			LocalDate.now(), 
+				 			CategoryDAO.getInstance().getCategoryByID(12));
+		 TransactionDao.getInstance().addTransaction(x);//WORKS*/
+		
+		/*
+		 x.setAmount(200);
+		 Thread.sleep(5000);
+		 TransactionDao.getInstance().changeTransaction(x);//WORKS
+		 Thread.sleep(5000);
+		 TransactionDao.getInstance().deleteTransaction(x);//WORKS
+		 */
+		
+		//for(Transaction t:TransactionDao.getInstance().getAllTransactionsByUser(UserDao.getInstance().getUserById(3))) {
+		//	System.out.println(t);//WORKS
+		//}
 		
 	}
 

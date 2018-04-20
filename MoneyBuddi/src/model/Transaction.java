@@ -99,7 +99,10 @@ public abstract class Transaction {
 		this.currency = currency;
 	}
 	
-	public void setAccount(Account account) {
+	public void setAccount(Account account) throws InvalidDataException {
+		if(account==null) {
+			throw new InvalidDataException ("Srry account can't be null");
+		}
 		this.account = account;
 	}
 	
@@ -117,4 +120,11 @@ public abstract class Transaction {
 	public void setType(TransactionType type) {
 		this.type = type;
 	}
+	
+	@Override
+	public String toString() {
+		return id+" "+type+" "+ amount+" "+currency.getType()+" "+account.getName()+" "+date+" "+category.getCategory();
+	}
+	
+	
 }

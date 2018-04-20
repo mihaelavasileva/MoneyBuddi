@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDao;
 import exceptions.InvalidDataException;
 import model.User;
-import security.BCrypt;
+import util.UserValidator;
+import util.security.BCrypt;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -25,19 +26,10 @@ public class RegisterServlet extends HttpServlet {
 			String email = request.getParameter("email");
 			int age = Integer.parseInt(request.getParameter("age"));
 			//validate data
-			if(username.isEmpty() || username.length() < 5) {
-				throw new InvalidDataException("username must be at least 5 chars long");
-			}
-			if(!pass1.equals(pass2)) {
-				throw new InvalidDataException("passwords missmatch");
-			}
-			if(email==null || email.isEmpty()) {
-				throw new InvalidDataException("Email cannot be null or empty.");
-			}
-			if(age<14 || age>100) {
-				throw new InvalidDataException("The age must be a number between 14 and 100.");
-			}
-			//create user
+			if(UserValidator.validateRegisterParameters(username, pass1, pass2, email, age)) {//if parameters match certain criteria
+				if(UserDao.getInstance().getUserByUsername(username)==null){//if username is free
+					if(!UserDao.getInstance().checkIfEmailExists(email)) {//if email is free
+			
 			pass1=BCrypt.hashpw(pass1, BCrypt.gensalt());
 			User u = new User(username, pass1, email, age);
 			//add to db
@@ -46,6 +38,11 @@ public class RegisterServlet extends HttpServlet {
 			//forward to login OR main
 			//TODO create main.jsp
 			request.getRequestDispatcher("WEB-INF/jsp/main.jsp").forward(request, response);
+					}
+					throw new InvalidDataException("Email is already in use");
+				}
+				throw new InvalidDataException("Username is already taken");
+			}
 		}
 		catch (InvalidDataException e) {
 			request.setAttribute("exception", e);

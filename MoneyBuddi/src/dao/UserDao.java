@@ -11,7 +11,7 @@ import exceptions.InvalidDataException;
 import java.sql.Connection;
 
 import model.User;
-import security.BCrypt;
+import util.security.BCrypt;
 
 public class UserDao implements IUserDao {
 
@@ -147,8 +147,7 @@ public class UserDao implements IUserDao {
 		PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM" + " users WHERE email=?");
 		ps.setString(1, email);
 		ResultSet rs= ps.executeQuery();
-		rs.next();
-		if(rs.getInt(1)==1) {
+		if(rs.next()) {
 			return true;
 		}
 		return false;
