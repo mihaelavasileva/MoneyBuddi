@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDao;
 import exceptions.InvalidDataException;
 import model.User;
-import security.BCrypt;
+import util.security.BCrypt;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
