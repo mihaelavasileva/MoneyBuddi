@@ -127,8 +127,8 @@ public class TransactionDao implements ITransactionDao{
 	}
 
 	@Override
-	public Collection<Transaction> getAllTransactionsByUser(User u) throws SQLException, InvalidDataException {
-		Collection<Transaction> transactions=new ArrayList();
+	public ArrayList<Transaction> getAllTransactionsByUser(User u) throws SQLException, InvalidDataException {
+		ArrayList<Transaction> transactions=new ArrayList();
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
 															+"transaction_type_id FROM transactions " 
 															+"Where account_id in(select id from accounts where user_id=?)")){

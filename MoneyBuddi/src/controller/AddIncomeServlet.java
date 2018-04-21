@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,9 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.AccountDao;
 import dao.CategoryDAO;
+import dao.TransactionDao;
 import dao.UserDao;
+import model.Account;
 import model.Category;
+import model.Currency;
+import model.Income;
+import model.Transaction;
 import model.Transaction.TransactionType;
 import model.User;
 
@@ -48,9 +55,16 @@ public class AddIncomeServlet extends HttpServlet {
 				double amount=Double.parseDouble(amountAsString);
 				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
 				Category category=CategoryDAO.getInstance().getCategoryByID(categoryId);
+				int accountId=Integer.parseInt(request.getParameter("accountId"));
+				Account account=AccountDao.getInstance().getAccountById(accountId);
+				Currency currency=account.getCurrency();
 				//create transaction (needed: amount, currency, acount, date, category, type=income) 
-				
+				Transaction income=new Income(amount,currency,account,LocalDate.now(),category);
+				//save it to db
+				TransactionDao.getInstance().addTransaction(income);
 				//forward to main.jsp
+				request.getRequestDispatcher("main.jsp").forward(request, response);
+				System.out.println("Income added");
 			}else {
 				//if the entered data is not valid throw exception 
 			}
