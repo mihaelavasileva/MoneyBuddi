@@ -47,6 +47,7 @@ public class AddIncomeServlet extends HttpServlet {
 				//get data from request
 				double amount=Double.parseDouble(amountAsString);
 				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
+				Category category=CategoryDAO.getInstance().getCategoryByID(categoryId);
 				//create transaction (needed: amount, currency, acount, date, category, type=income) 
 				
 				//forward to main.jsp

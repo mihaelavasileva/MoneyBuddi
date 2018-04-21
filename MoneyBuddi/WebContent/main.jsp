@@ -16,24 +16,23 @@
 	<div>
 		<h1><%= LocalDate.now() %></h1>
 
+		
 		<button type="button" onclick="location.href='createcategory.jsp'">New Category</button>
 		
 	</div>
 
 	<div>
-		<table>
-		<caption>My Accounts</caption>
+		<select name="accountId" value="choose account" required>
 		<%
 		User u=(User)request.getSession().getAttribute("user");
 		ArrayList<Account> accounts=AccountDao.getInstance().getAllAccountsForUser(u);
 		for(Account a: accounts){
 		%>
-		<tr>
-    		<td><%= a.getName() %></td>
-    		<td><button type="button" onclick="location.href='openaccount.jsp'">open</button></td>
- 		</tr>
+    		<option value="<%= a.getId() %>"><%= a.getName() %></option>
 		<%} %>
-		</table>
+		</select>
+		<button type="button" onclick="location.href='addincome'" style="color:lightgreen; background-color:green">Add Income</button>
+		<button type="button" onclick="location.href='addexpense'" style="background-color:red;color:pink">Add Expense</button>
 	</div>
 
 	<div>
