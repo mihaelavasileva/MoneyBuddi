@@ -30,7 +30,7 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public void saveUser(User u) throws SQLException {
+	public synchronized void saveUser(User u) throws SQLException {
 		PreparedStatement s = connection.prepareStatement(
 				"INSERT INTO users (username, " + "password, email, age)" 
 		+ " VALUES (?,?,?,?)",
