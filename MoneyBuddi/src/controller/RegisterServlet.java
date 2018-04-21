@@ -33,6 +33,7 @@ public class RegisterServlet extends HttpServlet {
 			pass1=BCrypt.hashpw(pass1, BCrypt.gensalt());
 			User u = new User(username, pass1, email, age);
 			//add to db
+			//synchronized
 			UserDao.getInstance().saveUser(u);
 			request.getSession().setAttribute("user", u);
 			request.getSession().setAttribute("logged", true);

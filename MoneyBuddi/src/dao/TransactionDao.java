@@ -12,6 +12,7 @@ import java.util.Collection;
 
 import controller.manager.DBManager;
 import exceptions.InvalidDataException;
+import model.Account;
 import model.Expense;
 import model.Income;
 import model.Transaction;
@@ -35,17 +36,21 @@ public class TransactionDao implements ITransactionDao{
 	}
 	
 	@Override
-	public void addTransaction(Transaction transaction) throws SQLException {
+	       
+	public synchronized void addTransaction(Transaction transaction) throws SQLException {
+		try {
+			connection.setAutoCommit(false);
 		PreparedStatement s = connection.prepareStatement(
 				"INSERT INTO transactions (amount, date, currency_id,"
 				+ "account_id, category_id,transaction_type_id) "
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+		
+		
 		s.setDouble(1, transaction.getAmount());
 		s.setDate(2, Date.valueOf(LocalDate.now()));
 		s.setInt(3, transaction.getCurrency().getId());
 		s.setInt(4, transaction.getAccount().getId());
 		s.setInt(5, transaction.getCategory().getId());
-		//s.setInt(6, transaction.getType().getId());
 		s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
 
 		int rows = s.executeUpdate();
@@ -58,9 +63,26 @@ public class TransactionDao implements ITransactionDao{
 		ResultSet generatedKey = s.getGeneratedKeys();
 		generatedKey.next();
 		transaction.setId((int)generatedKey.getLong(1));
-
+		
+		
+		Account acc=transaction.getAccount();
+		if(transaction.getType().equals(TransactionType.EXPENSE)) {
+			acc.setBalance(acc.getBalance()-transaction.getAmount());
+		}else if(transaction.getType().equals(TransactionType.INCOME)) {
+			acc.setBalance(acc.getBalance()+transaction.getAmount());
+		}
+		AccountDao.getInstance().updateAccount(acc);//not 100% if this works 
+		connection.commit();
+		
 		s.close();
 		System.out.println("Transaction successfully added in DB");
+		}catch(SQLException e) {
+			connection.rollback();
+			throw new SQLException("Srry transaction can't be executed");
+		}finally {
+			connection.setAutoCommit(true);
+		}
+		
 	}
 
 	@Override
