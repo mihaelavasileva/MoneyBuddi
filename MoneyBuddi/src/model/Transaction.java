@@ -26,7 +26,6 @@ public abstract class Transaction {
 	private Account account;
 	private LocalDate date;
 	private Category category;
-	private String description;//not obligatory?, can be null
 	private TransactionType type;
 	
 	public Transaction(double amount, Currency currency, Account account, LocalDate date2, 
@@ -46,9 +45,6 @@ public abstract class Transaction {
 	}
 
 	//=====getters
-	public String getDescription() {
-		return description;
-	}
 
 	public TransactionType getType() {
 		return type;
@@ -79,10 +75,6 @@ public abstract class Transaction {
 	}
 	
 	//======setters
-	public void setDescription(String description) {
-		//check if description is null when selecting from db
-		this.description = description;
-	}
 	
 	public void setId(int id) {
 		this.id = id;

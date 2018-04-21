@@ -7,9 +7,9 @@
 <title>Error</title>
 </head>
 <body>
-<h1>Error!!!</h1>
+	<h1>Error!!!</h1>
 	<%Exception e=(Exception) request.getAttribute("exception"); %>
 	<h2>Reason: <%= e.getMessage() %> </h2>
-	<a  href="login.html">Back to login</a>
+	<a href="main.jsp">Back to main page</a>
 </body>
 </html>

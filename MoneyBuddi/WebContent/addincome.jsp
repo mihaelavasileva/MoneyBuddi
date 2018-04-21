@@ -13,16 +13,15 @@
 	<div>
 		<form >
 			<input type="number" name="amount" required><br>
-			<select name="category" value="choose category" required><br>
+			<select name="categoryId" value="choose category" required><br>
 				<% List<Category> categories=(List<Category>)request.getAttribute("categories");
 					for(Category c : categories){
 				%>
 				<option value="<%= c.getId() %>"> <%= c.getCategory() %> </option>
 				<%} %>
 			</select>
-			<input type="text" name="description" value="add note"><br>
 			<input type="button" onclick="location.href='main.jsp'" value="close">
-			<input type="submit"  onclick="location.href='showIncome'" value="save">
+			<input type="submit"  onclick="location.href='addincome'" value="save">
 		</form>
 	</div>
 </body>

@@ -39,7 +39,24 @@ public class AddIncomeServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			//if the entered value is not null or empty
+			String amountAsString=request.getParameter("amount");
+			if(amountAsString!=null && !amountAsString.isEmpty()) {
+				//get data from request
+				double amount=Double.parseDouble(request.getParameter("amount"));
+				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
+				//create transaction and save it in db
+				//forward to main.jsp
+			}else {
+				//if the entered data is not valid throw exception 
+			}
+		}catch(Exception e) {
+			//catch and forward to error.jsp
+			request.setAttribute("exception", e);
+			//TODO do it later in one error.jsp, check if the user is logged
+			request.getRequestDispatcher("errorWhenLogged.jsp").forward(request, response);
+		}
 	}
 }

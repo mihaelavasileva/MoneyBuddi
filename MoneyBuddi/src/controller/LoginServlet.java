@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 			if(u != null) {
 				System.out.println(u.getPassword());
 				request.getSession().setAttribute("user", u);
-				//TODO create main.jsp
+				request.getSession().setAttribute("logged", true);
 				request.getRequestDispatcher("main.jsp").forward(request, response);
 			}
 			else {	

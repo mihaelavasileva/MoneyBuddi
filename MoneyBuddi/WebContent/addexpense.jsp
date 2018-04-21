@@ -20,7 +20,6 @@
 				<option value="<%= c.getId() %>"> <%= c.getCategory() %> </option>
 				<%} %>
 			</select>
-			<input type="text" name="description" value="add note"><br>
 			<input type="button" onclick="location.href='main.jsp'" value="close">
 			<input type="submit" value="save">
 		</form>

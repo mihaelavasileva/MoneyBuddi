@@ -35,6 +35,7 @@ public class RegisterServlet extends HttpServlet {
 			//add to db
 			UserDao.getInstance().saveUser(u);
 			request.getSession().setAttribute("user", u);
+			request.getSession().setAttribute("logged", true);
 			//forward to login OR main
 			//TODO create main.jsp
 			request.getRequestDispatcher("main.jsp").forward(request, response);

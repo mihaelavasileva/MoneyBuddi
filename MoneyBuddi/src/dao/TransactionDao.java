@@ -50,11 +50,11 @@ public class TransactionDao implements ITransactionDao{
 
 		int rows = s.executeUpdate();
 		if (rows == 0) {
-			// if user is not inserted, throw exception
+			// if transaction is not inserted, throw exception
 			throw new SQLException("Transaction was not inserted in DB.");
 		}
 
-		// retrieve user`s id
+		// retrieve transaction`s id
 		ResultSet generatedKey = s.getGeneratedKeys();
 		generatedKey.next();
 		transaction.setId((int)generatedKey.getLong(1));
