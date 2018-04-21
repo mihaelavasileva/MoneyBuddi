@@ -15,9 +15,9 @@
 			<input type="text" name="name" required><br>
 			
 			<select name="type" value="type" required><br>
-				
 				<option value="INCOME">INCOME </option>
 				<option value="EXPENSE">EXPENSE </option>
+				
 				
 			</select>
 			

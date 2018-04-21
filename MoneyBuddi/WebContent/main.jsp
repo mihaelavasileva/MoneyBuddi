@@ -14,13 +14,20 @@
 		<button type="button" onclick="location.href='addincome'" style="color:lightgreen; background-color:green">Add Income</button>
 		<button type="button" onclick="location.href='addexpense'" style="background-color:red;color:pink">Add Expense</button>
 		<button type="button" onclick="location.href='createcategory.jsp'">New Category</button>
-
+		
 	</div>
 
 
 	<div>
 		<button type="button" onclick="location.href='income'" style="color:lightgreen; background-color:green">Income</button>
 		<button type="button" onclick="location.href='expense'" style="background-color:red;color:pink">Expense</button>
+	</div><br>
+	
+	
+	<div>
+	<form action="createAccount" method="GET">
+		<input type="submit" value="create new Account" />
+		</form>
 	</div>
 
 

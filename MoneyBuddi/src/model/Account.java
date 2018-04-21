@@ -1,7 +1,5 @@
 package model;
 
-import com.sun.media.sound.InvalidDataException;
-
 public class Account {
 	
 	private int id;
