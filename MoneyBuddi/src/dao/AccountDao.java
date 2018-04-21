@@ -121,22 +121,16 @@ public class AccountDao implements IAccountDao {
 	}
 
 	@Override
-	public List<Account> getAllAccountsForUser(User u) throws Exception {
+	public ArrayList<Account> getAllAccountsForUser(User u) throws Exception {
 		ArrayList<Account> accounts=new ArrayList<>();
 		PreparedStatement ps=null;
 		try {
 			ps=connection.prepareStatement("SELECT id, name, "
 					+ "balance,user_id, currency_id FROM accounts WHERE user_id=?");
-			ps.setLong(1, u.getId());
+			ps.setInt(1, u.getId());
 			
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
-				/*accounts.add(new Account(rs.getInt(1),//account id
-										 rs.getString(2),//account name
-										 rs.getDouble(3),//account balance
-										 rs.getInt(4),//user_id
-									   	 rs.getInt(5)));//currency_id
-									   	 */
 				accounts.add(new Account(rs.getInt("id"),
 						                 rs.getString("name"),
 						                 rs.getDouble("balance"),

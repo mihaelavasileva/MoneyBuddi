@@ -1,3 +1,8 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.Account"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.AccountDao"%>
+<%@page import="model.User"%>
 <%@page import="java.time.LocalDate"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -11,12 +16,25 @@
 	<div>
 		<h1><%= LocalDate.now() %></h1>
 
-		<button type="button" onclick="location.href='addincome'" style="color:lightgreen; background-color:green">Add Income</button>
-		<button type="button" onclick="location.href='addexpense'" style="background-color:red;color:pink">Add Expense</button>
 		<button type="button" onclick="location.href='createcategory.jsp'">New Category</button>
 		
 	</div>
 
+	<div>
+		<table>
+		<caption>My Accounts</caption>
+		<%
+		User u=(User)request.getSession().getAttribute("user");
+		ArrayList<Account> accounts=AccountDao.getInstance().getAllAccountsForUser(u);
+		for(Account a: accounts){
+		%>
+		<tr>
+    		<td><%= a.getName() %></td>
+    		<td><button type="button" onclick="location.href='openaccount.jsp'">open</button></td>
+ 		</tr>
+		<%} %>
+		</table>
+	</div>
 
 	<div>
 		<button type="button" onclick="location.href='income'" style="color:lightgreen; background-color:green">Income</button>

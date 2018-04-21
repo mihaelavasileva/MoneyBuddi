@@ -9,11 +9,11 @@ import java.sql.SQLException;
 public class DBManager {
 	
 	
-	private static final String DB_PASS = "";
-	private static final String DB_USER = "";
-	private static final String DB_PORT = "";
-	private static final String DB_IP = "";
-	private static final String DB_NAME = "";
+	private static final String DB_PASS = "Mihaela*123";
+	private static final String DB_USER = "root";
+	private static final String DB_PORT = "3306";
+	private static final String DB_IP = "127.0.0.1";
+	private static final String DB_NAME = "mydb";
 	
 	
 	private static Connection connection;

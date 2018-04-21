@@ -45,9 +45,10 @@ public class AddIncomeServlet extends HttpServlet {
 			String amountAsString=request.getParameter("amount");
 			if(amountAsString!=null && !amountAsString.isEmpty()) {
 				//get data from request
-				double amount=Double.parseDouble(request.getParameter("amount"));
+				double amount=Double.parseDouble(amountAsString);
 				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
-				//create transaction and save it in db
+				//create transaction (needed: amount, currency, acount, date, category, type=income) 
+				
 				//forward to main.jsp
 			}else {
 				//if the entered data is not valid throw exception 
