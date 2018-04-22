@@ -22,14 +22,17 @@
 	</div>
 
 	<div>
-		<select name="accountId" value="choose account" required>
+		<select name="accountId" required>
 		<%
 		User u=(User)request.getSession().getAttribute("user");
 		ArrayList<Account> accounts=AccountDao.getInstance().getAllAccountsForUser(u);
+		int accountId=0;
 		for(Account a: accounts){
 		%>
-    		<option value="<%= a.getId() %>"><%= a.getName() %></option>
-		<%} %>
+    		<option value="<%= accountId=a.getId() %>"><%= a.getName() %></option>
+		<%} 
+		request.getSession().setAttribute("accountId", accountId);
+		%>
 		</select>
 		<button type="button" onclick="location.href='addincome'" style="color:lightgreen; background-color:green">Add Income</button>
 		<button type="button" onclick="location.href='addexpense'" style="background-color:red;color:pink">Add Expense</button>

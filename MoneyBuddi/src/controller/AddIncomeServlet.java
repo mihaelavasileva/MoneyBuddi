@@ -55,9 +55,17 @@ public class AddIncomeServlet extends HttpServlet {
 				double amount=Double.parseDouble(amountAsString);
 				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
 				Category category=CategoryDAO.getInstance().getCategoryByID(categoryId);
-				int accountId=Integer.parseInt(request.getParameter("accountId"));
+				System.out.println("=====");
+				//get account id??
+				Integer accountId=(Integer)request.getSession().getAttribute("accountId");
 				Account account=AccountDao.getInstance().getAccountById(accountId);
 				Currency currency=account.getCurrency();
+				
+				System.out.println("currency "+currency.getId());
+				System.out.println("amount "+amount);
+				System.out.println("category "+category.getCategory());
+				System.out.println("account "+account.getName());
+				
 				//create transaction (needed: amount, currency, acount, date, category, type=income) 
 				Transaction income=new Income(amount,currency,account,LocalDate.now(),category);
 				//save it to db
