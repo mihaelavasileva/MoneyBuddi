@@ -19,7 +19,9 @@
        </tr>
 	  <% 
 	  ArrayList<Transaction> transactions=( ArrayList<Transaction>)request.getAttribute("expenseTransactions");
+	  double totalAmount=0;
 	  for(Transaction t : transactions){
+		  totalAmount+=t.getAmount();
 			%>
 			<tr>
 	   			 <td><%=t.getCategory().getCategory() %></td>
@@ -29,6 +31,7 @@
 	  
 	</table>
 
+	  <h3>Total : <%= totalAmount %></h3>
 
 </body>
 </html>

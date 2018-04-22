@@ -18,16 +18,17 @@
    		 <th>Amount</th>
        </tr>
 	  <% 
-	  ArrayList<Transaction> transactions=( ArrayList<Transaction>)request.getAttribute("incomeTransactions");
+	 ArrayList<Transaction> transactions=( ArrayList<Transaction>)request.getAttribute("incomeTransactions");
+	 double totalAmount=0;
 	  for(Transaction t : transactions){
+		  totalAmount+=t.getAmount();
 			%>
 			<tr>
 	   			 <td><%=t.getCategory().getCategory() %></td>
 	    		 <td><%=t.getAmount() %></td>
 	  		</tr>
 			<%} %>
-	  
 	</table>
-
+	  <h3>Total : <%= totalAmount %></h3>
 </body>
 </html>
