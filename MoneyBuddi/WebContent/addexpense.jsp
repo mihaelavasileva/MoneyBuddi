@@ -13,7 +13,7 @@
 	<div>
 		<form action="addexpense" method="post">
 			<input type="number" name="amount" required><br>
-			<select name="category" value="choose category" required><br>
+			<select name="categoryId" value="choose category" required><br>
 				<% List<Category> categories=(List<Category>)request.getAttribute("categories");
 					for(Category c : categories){
 				%>
