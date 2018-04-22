@@ -40,7 +40,7 @@
 
 	<div>
 		<button type="button" onclick="location.href='showIncome'" style="color:lightgreen; background-color:green">Income</button>
-		<button type="button" onclick="location.href='expense'" style="background-color:red;color:pink">Expense</button>
+		<button type="button" onclick="location.href='showExpense'" style="background-color:red;color:pink">Expense</button>
 	</div><br>
 	
 	

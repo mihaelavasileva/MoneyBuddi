@@ -6,11 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Income</title>
+<title>Expense</title>
 </head>
 <body>
 
-<h2>Income</h2>
+<h2>Expense</h2>
 
 	<table style="width:50%">
 	  <tr>
@@ -18,7 +18,7 @@
    		 <th>Amount</th>
        </tr>
 	  <% 
-	  ArrayList<Transaction> transactions=( ArrayList<Transaction>)request.getAttribute("incomeTransactions");
+	  ArrayList<Transaction> transactions=( ArrayList<Transaction>)request.getAttribute("expenseTransactions");
 	  for(Transaction t : transactions){
 			%>
 			<tr>
@@ -28,6 +28,7 @@
 			<%} %>
 	  
 	</table>
+
 
 </body>
 </html>

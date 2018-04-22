@@ -159,4 +159,51 @@ public class TransactionDao implements ITransactionDao{
 		return transactions;
 	}
 
+	@Override
+	public ArrayList<Transaction> getAllExpenseTransactions(User u) throws Exception {
+		ArrayList<Transaction> transactions=new ArrayList();
+		//the id of expense in my db is 2
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
+															+"transaction_type_id FROM transactions " 
+															+"Where account_id in(select id from accounts where user_id=?)"
+															+ "AND transaction_type_id=?")){
+			ps.setInt(1, u.getId());
+			ps.setInt(2, 2);
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					transactions.add(    new Expense(rs.getInt("id"),
+							                         rs.getDouble("amount"),
+							                         CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							                         AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+							                         rs.getDate("date").toLocalDate(),
+							                         CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+				}
+			}
+		}
+		return transactions;
+	}
+	
+	@Override
+	public ArrayList<Transaction> getAllIncomeTransactions(User u) throws Exception {
+		ArrayList<Transaction> transactions=new ArrayList();
+		//the id of income in my db is 1
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
+															+"transaction_type_id FROM transactions " 
+															+"Where account_id in(select id from accounts where user_id=?)"
+															+ "AND transaction_type_id=?")){
+			ps.setInt(1, u.getId());
+			ps.setInt(2, 1);
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					transactions.add(    new Expense(rs.getInt("id"),
+							                         rs.getDouble("amount"),
+							                         CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							                         AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+							                         rs.getDate("date").toLocalDate(),
+							                         CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+				}
+			}
+		}
+		return transactions;
+	}
 }
