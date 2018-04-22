@@ -206,4 +206,102 @@ public class TransactionDao implements ITransactionDao{
 		}
 		return transactions;
 	}
+	
+	
+	
+	@Override
+	public ArrayList<Transaction> getAllTransactionsByUserFiltered(User u,int days) throws SQLException, InvalidDataException {
+		LocalDate now=LocalDate.now();
+		LocalDate begin=now.minusDays(days);//this will show only the transaction from the begin date to now
+		ArrayList<Transaction> transactions=new ArrayList();
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
+															+"transaction_type_id FROM transactions " 
+															+"Where date>? and account_id in(select id from accounts where user_id=?)")){
+			ps.setInt(1, days);
+			ps.setInt(2, u.getId());
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.EXPENSE)) {
+						transactions.add(new Expense(rs.getInt("id"),
+							                         rs.getDouble("amount"),
+							                         CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							                         AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+							                         rs.getDate("date").toLocalDate(),
+							                         CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+						
+					}else if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.INCOME)){
+						transactions.add(new Income(rs.getInt("id"),
+		                                            rs.getDouble("amount"),
+		                                            CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+		                                            AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+		                                            rs.getDate("date").toLocalDate(),
+		                                            CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+						
+					}
+				}
+			}
+			
+			
+		}
+		return transactions;
+	}
+	
+	@Override
+	public ArrayList<Transaction> getAllTransactionsByUserAndDate(User u,LocalDate date) throws SQLException, InvalidDataException {
+		
+		ArrayList<Transaction> transactions=new ArrayList();
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
+															+"transaction_type_id FROM transactions " 
+															+"Where date=? and account_id in(select id from accounts where user_id=?)")){
+			
+			ps.setInt(1, u.getId());
+			try(ResultSet rs=ps.executeQuery()){
+				while(rs.next()) {
+					if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.EXPENSE)) {
+						transactions.add(new Expense(rs.getInt("id"),
+							                         rs.getDouble("amount"),
+							                         CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							                         AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+							                         rs.getDate("date").toLocalDate(),
+							                         CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+						
+					}else if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.INCOME)){
+						transactions.add(new Income(rs.getInt("id"),
+		                                            rs.getDouble("amount"),
+		                                            CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+		                                            AccountDao.getInstance().getAccountById(rs.getInt("account_id")),
+		                                            rs.getDate("date").toLocalDate(),
+		                                            CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id"))));
+						
+					}
+				}
+			}
+			
+			
+		}
+		return transactions;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
