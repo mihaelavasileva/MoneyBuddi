@@ -13,7 +13,6 @@
 <h2>Income</h2>
 
 	<table style="width:50%">
-	  <caption>Income</caption>
 	  <tr>
     	 <th>Category</th>
    		 <th>Amount</th>
@@ -23,7 +22,7 @@
 	  for(Transaction t : transactions){
 			%>
 			<tr>
-	   			 <td><%=t.getCategory() %></td>
+	   			 <td><%=t.getCategory().getCategory() %></td>
 	    		 <td><%=t.getAmount() %></td>
 	  		</tr>
 			<%} %>
