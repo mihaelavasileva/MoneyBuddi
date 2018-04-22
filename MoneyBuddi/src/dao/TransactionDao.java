@@ -217,7 +217,7 @@ public class TransactionDao implements ITransactionDao{
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
 															+"transaction_type_id FROM transactions " 
 															+"Where date>? and account_id in(select id from accounts where user_id=?)")){
-			ps.setInt(1, days);
+			ps.setDate(1, Date.valueOf(begin));
 			ps.setInt(2, u.getId());
 			try(ResultSet rs=ps.executeQuery()){
 				while(rs.next()) {
@@ -253,8 +253,8 @@ public class TransactionDao implements ITransactionDao{
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,amount,date,currency_id,account_id,category_id,"
 															+"transaction_type_id FROM transactions " 
 															+"Where date=? and account_id in(select id from accounts where user_id=?)")){
-			
-			ps.setInt(1, u.getId());
+			ps.setDate(1, Date.valueOf(date));
+			ps.setInt(2, u.getId());
 			try(ResultSet rs=ps.executeQuery()){
 				while(rs.next()) {
 					if(TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")).equals(TransactionType.EXPENSE)) {
