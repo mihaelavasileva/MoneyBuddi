@@ -11,7 +11,7 @@
 <body>
 <h1>Income</h1>
 	<div>
-		<form >
+		<form action="addincome" method="post">
 			<input type="number" name="amount" required><br>
 			<select name="categoryId" value="choose category" required><br>
 				<% List<Category> categories=(List<Category>)request.getAttribute("categories");

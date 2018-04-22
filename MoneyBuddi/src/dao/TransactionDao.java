@@ -45,7 +45,6 @@ public class TransactionDao implements ITransactionDao{
 				+ "account_id, category_id,transaction_type_id) "
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 		
-		
 		s.setDouble(1, transaction.getAmount());
 		s.setDate(2, Date.valueOf(LocalDate.now()));
 		s.setInt(3, transaction.getCurrency().getId());
@@ -53,6 +52,7 @@ public class TransactionDao implements ITransactionDao{
 		s.setInt(5, transaction.getCategory().getId());
 		s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
 
+		System.out.println("transaction type: "+transaction.getType());
 		int rows = s.executeUpdate();
 		if (rows == 0) {
 			// if transaction is not inserted, throw exception
