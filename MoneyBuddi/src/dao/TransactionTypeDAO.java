@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.manager.DBManager;
 import model.Transaction.TransactionType;
@@ -64,6 +66,27 @@ public class TransactionTypeDAO implements ITransactionTypeDAO{
 		}
 		return 0;
 	}
+
+	@Override
+	public List<TransactionType> getAllTransactionTypes() throws SQLException {
+         List<TransactionType> types=new ArrayList();
+         try(PreparedStatement ps=connection.prepareStatement("SELECT name FROM transaction_types")){
+        	 try(ResultSet rs=ps.executeQuery()){
+        		 while(rs.next()) {
+        			 String type_name=rs.getString("name");
+ 					for(TransactionType type:TransactionType.values()) {
+ 								
+ 						if(type_name.equals(type.toString())) {//in case there there is a name in DB that does not 
+ 							types.add(type);				   // have an enum representation
+ 						}
+ 					}
+        			 
+        		 }
+        	 }
+        	 	 
+         }
+       return types;
+    }
 	
 	
 

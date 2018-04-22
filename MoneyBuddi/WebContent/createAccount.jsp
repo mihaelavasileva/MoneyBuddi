@@ -18,10 +18,10 @@
 			Name:<input type="text" name="name" required><br>
 			Balance:<input id="number" type="number" name="amount" required><br>
 			
-			Currency:<select name="currency" value="type" required><br>
+			Currency:<select name="currencyId" value="type" required><br>
 			<% List<Currency> currencies=(List<Currency>)request.getAttribute("currencies"); %>
 				<% for(Currency c:currencies){ %>
-				<option>  <%= c.getType().toString() %> </option>
+				<option value="<%=c.getId() %>">  <%= c.getType().toString() %> </option>
 				<%} %>
 			</select>
 			

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import="model.Category" %>
+    <%@ page import="model.Transaction.TransactionType" %>
+    <%@page import="java.util.List"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,9 +17,11 @@
 			<input type="text" name="name" required><br>
 			
 			<select name="type" value="type" required><br>
-				<option value="INCOME">INCOME </option>
-				<option value="EXPENSE">EXPENSE </option>
-				
+				<% List<TransactionType> types=(List<TransactionType>)request.getAttribute("Types");
+					for(TransactionType t:types){
+				%>
+				<option > <%= t.toString() %> </option>
+				<%} %>
 				
 			</select>
 			

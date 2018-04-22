@@ -54,14 +54,13 @@ public class CreateAccountServlet extends HttpServlet {
 																    //after pressing create 
 			
 			String name=request.getParameter("name");
-		
-			String currency=request.getParameter("currency");
+			int currencyId=Integer.parseInt(request.getParameter("currencyId"));;
 			String amount=request.getParameter("amount");
 			double value=Double.parseDouble(amount);
 			
 			User user=(User)request.getSession().getAttribute("user");
 		
-			Currency c=CurrencyDAO.getInstance().getCurrencyByType(CurrencyType.valueOf(currency));
+			Currency c=CurrencyDAO.getInstance().getCurrencyById(currencyId);
 			
 			Account account=new Account(name,value,user,c);
 			AccountDao.getInstance().addAccount(account);

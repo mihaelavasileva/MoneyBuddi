@@ -17,7 +17,7 @@
 		<h1><%= LocalDate.now() %></h1>
 
 		
-		<button type="button" onclick="location.href='createcategory.jsp'">New Category</button>
+		<button type="button" onclick="location.href='createCategory'">New Category</button>
 		
 	</div>
 

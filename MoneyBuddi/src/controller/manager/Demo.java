@@ -155,8 +155,10 @@ public class Demo {
 		//	System.out.println(t);//WORKS
 		//}
 		
-		System.out.println(UserDao.getInstance().checkIfEmailExists("kriskata@abv.bg"));
-		
+		//for(TransactionType t:TransactionTypeDAO.getInstance().getAllTransactionTypes()) {
+		//	System.out.println(t);
+		//}
+			
 	}
 
 }
