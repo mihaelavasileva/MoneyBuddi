@@ -46,7 +46,7 @@ public class TransactionDao implements ITransactionDao{
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 		
 		s.setDouble(1, transaction.getAmount());
-		s.setDate(2, Date.valueOf(LocalDate.now()));
+		s.setDate(2, transaction.getDate());
 		s.setInt(3, transaction.getCurrency().getId());
 		s.setInt(4, transaction.getAccount().getId());
 		s.setInt(5, transaction.getCategory().getId());
