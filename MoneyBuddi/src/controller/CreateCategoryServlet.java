@@ -29,9 +29,9 @@ public class CreateCategoryServlet extends HttpServlet {
 			request.setAttribute("Types", types);
 			request.getRequestDispatcher("createCategory.jsp").forward(request, response);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+			}
 		
 		
 	}
