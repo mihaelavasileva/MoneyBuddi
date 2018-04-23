@@ -19,4 +19,6 @@ public interface ITransactionDao {
 	ArrayList<Transaction> getAllExpenseTransactions(User u) throws Exception;
 	ArrayList<Transaction> getAllTransactionsByUserFiltered(User u, int days) throws SQLException, InvalidDataException;
 	ArrayList<Transaction> getAllTransactionsByUserAndDate(User u, LocalDate date)throws SQLException, InvalidDataException;
+	ArrayList<Transaction> getIncomeByUserForMonth(User u) throws Exception;
+	ArrayList<Transaction> getExpenseByUserForMonth(User u) throws Exception;
 }

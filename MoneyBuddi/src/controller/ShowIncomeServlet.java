@@ -28,6 +28,7 @@ public class ShowIncomeServlet extends HttpServlet {
 		  request.setAttribute("incomeTransactions", incomeTransactions);
 		  request.getRequestDispatcher("showIncomeTransactions.jsp").forward(request, response);
 	  }catch(Exception e) {
+		  request.setAttribute("exception", e);
 		  request.getRequestDispatcher("error.jsp").forward(request, response);
 	  }
 	}

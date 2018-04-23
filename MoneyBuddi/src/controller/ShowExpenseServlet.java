@@ -28,6 +28,7 @@ public class ShowExpenseServlet extends HttpServlet {
 		  request.setAttribute("expenseTransactions", expenseTransactions);
 		  request.getRequestDispatcher("showExpenseTransactions.jsp").forward(request, response);
 	  }catch(Exception e) {
+		  request.setAttribute("exception", e);
 		  request.getRequestDispatcher("error.jsp").forward(request, response);
 	  }
 	}
