@@ -42,17 +42,18 @@ public class TransactionDao implements ITransactionDao {
 	public synchronized void addTransaction(Transaction transaction) throws SQLException {
 		try {
 			connection.setAutoCommit(false);
-			PreparedStatement s = connection.prepareStatement(
-					"INSERT INTO transactions (amount, date, currency_id,"
-							+ "account_id, category_id,transaction_type_id) " + "VALUES (?,?,?,?,?,?)",
-					Statement.RETURN_GENERATED_KEYS);
 
-			s.setDouble(1, transaction.getAmount());
-			s.setDate(2, Date.valueOf(LocalDate.now()));
-			s.setInt(3, transaction.getCurrency().getId());
-			s.setInt(4, transaction.getAccount().getId());
-			s.setInt(5, transaction.getCategory().getId());
-			s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
+		PreparedStatement s = connection.prepareStatement(
+				"INSERT INTO transactions (amount, date, currency_id,"
+				+ "account_id, category_id,transaction_type_id) "
+				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+		
+		s.setDouble(1, transaction.getAmount());
+		s.setDate(2, transaction.getDate());
+		s.setInt(3, transaction.getCurrency().getId());
+		s.setInt(4, transaction.getAccount().getId());
+		s.setInt(5, transaction.getCategory().getId());
+		s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
 
 			System.out.println("transaction type: " + transaction.getType());
 			int rows = s.executeUpdate();

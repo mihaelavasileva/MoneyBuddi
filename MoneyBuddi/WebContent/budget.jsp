@@ -14,20 +14,26 @@
 <body>
 	<div>
 	  <h1>Your budgets</h1>
-		<select name="budgetId" required>
-		<%
+	  
+	  <form action="budgetTransaction" method="GET">
+		<select  name="budgetId" required>
+			<%
 		
-		ArrayList<Budget> budgets=(ArrayList<Budget>)request.getSession().getAttribute("budgets");
-		int budgetId=0;
-		for(Budget b: budgets){
-		%>
-    		<option value="<%= budgetId=b.getId() %>"><%= b.getCategory().getCategory()+" "
+			ArrayList<Budget> budgets=(ArrayList<Budget>)request.getSession().getAttribute("budgets");
+			int budgetId=0;
+			for(Budget b: budgets){
+			%>
+    			<option value="<%= budgetId=b.getId() %>"><%= b.getCategory().getCategory()+" "
     													 +b.getCategory().getType().toString()+" "
     													 +b.getAmount()%></option>
-		<%} 
-		request.getSession().setAttribute("budgetId", budgetId);
-		%>
-		</select><br>
+			<%} 
+			%>
+			</select>
+		 	 <%if(budgets.size()>0){ %>
+				<input type="submit" value="Create transaction"> 
+		 	 <% } %>
+		</form>
+		<br>
 		<br>
 		
 		

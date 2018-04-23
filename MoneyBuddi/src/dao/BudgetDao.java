@@ -111,6 +111,29 @@ public class BudgetDao implements IBudgetDAO{
 		}
 		return budgets;
 	}
+
+	@Override
+	public Budget getBudgetById(int id) throws Exception {
+		Budget b=null;
+		try(PreparedStatement ps=connection.prepareStatement("SELECT id , amount , begin_date,"
+								                             + "end_date , user_id , currency_id , category_id " 
+								                             + "FROM budgets WHERE id=?" )){
+			ps.setInt(1, id);
+			try(ResultSet rs=ps.executeQuery()){
+				if(rs.next()) {
+					b=new Budget(rs.getInt("id"),
+				               CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id")), 
+				               rs.getDouble("amount"), 
+				               UserDao.getInstance().getUserById(rs.getInt("user_id")), 
+				               CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+				               rs.getDate("begin_date").toLocalDate(), 
+				               rs.getDate("end_date").toLocalDate());
+					return b;
+				}
+			}
+		}
+		return null;
+	}
 	
 	
 	

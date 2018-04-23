@@ -28,7 +28,7 @@ public class BudgetServlet extends HttpServlet {
 			ArrayList<Budget> budgets=(ArrayList<Budget>) BudgetDao.getInstance().getAllBudgetsForUser(u);
 			request.getSession().setAttribute("budgets", budgets);
 			request.getRequestDispatcher("budget.jsp").forward(request, response);
-		} catch (SQLException | InvalidDataException e) {
+		} catch (Exception e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
