@@ -15,6 +15,7 @@ import controller.manager.DBManager;
 import exceptions.InvalidDataException;
 import javafx.util.converter.LocalDateStringConverter;
 import model.Account;
+import model.Budget;
 import model.Expense;
 import model.Income;
 import model.Transaction;
@@ -39,7 +40,7 @@ public class TransactionDao implements ITransactionDao {
 
 	@Override
 
-	public synchronized void addTransaction(Transaction transaction) throws SQLException {
+	public synchronized void addTransaction(Transaction transaction,Budget budget) throws SQLException {
 		try {
 			connection.setAutoCommit(false);
 
@@ -47,13 +48,13 @@ public class TransactionDao implements ITransactionDao {
 				"INSERT INTO transactions (amount, date, currency_id,"
 				+ "account_id, category_id,transaction_type_id) "
 				+ "VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
-		
-		s.setDouble(1, transaction.getAmount());
-		s.setDate(2, transaction.getDate());
-		s.setInt(3, transaction.getCurrency().getId());
-		s.setInt(4, transaction.getAccount().getId());
-		s.setInt(5, transaction.getCategory().getId());
-		s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
+			
+			s.setDouble(1, transaction.getAmount());
+			s.setDate(2, transaction.getDate());
+			s.setInt(3, transaction.getCurrency().getId());
+			s.setInt(4, transaction.getAccount().getId());
+			s.setInt(5, transaction.getCategory().getId());
+			s.setInt(6, TransactionTypeDAO.getInstance().getIdByTranscationType(transaction.getType()));
 
 			System.out.println("transaction type: " + transaction.getType());
 			int rows = s.executeUpdate();
@@ -68,12 +69,10 @@ public class TransactionDao implements ITransactionDao {
 			transaction.setId((int) generatedKey.getLong(1));
 
 			Account acc = transaction.getAccount();
-			if (transaction.getType().equals(TransactionType.EXPENSE)) {
-				acc.setBalance(acc.getBalance() - transaction.getAmount());
-			} else if (transaction.getType().equals(TransactionType.INCOME)) {
-				acc.setBalance(acc.getBalance() + transaction.getAmount());
+			AccountDao.getInstance().updateAccount(acc);
+			if(budget!=null) {
+			BudgetDao.getInstance().updateBudget(budget);
 			}
-			AccountDao.getInstance().updateAccount(acc);// not 100% if this works
 			connection.commit();
 
 			s.close();
@@ -86,7 +85,8 @@ public class TransactionDao implements ITransactionDao {
 		}
 
 	}
-
+	
+	
 	@Override
 	public void deleteTransaction(Transaction transaction) throws SQLException {
 		PreparedStatement s = null;
@@ -340,5 +340,5 @@ public class TransactionDao implements ITransactionDao {
 		return transactions;
 	}
 
-
+	
 }
