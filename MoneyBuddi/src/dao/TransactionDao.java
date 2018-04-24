@@ -288,7 +288,7 @@ public class TransactionDao implements ITransactionDao {
 				"SELECT id,amount,date,currency_id,account_id,category_id,"
 						+ "transaction_type_id FROM transactions "
 						+ "Where (date BETWEEN ? AND ?)"
-						+ "AND transaction_type_id=?"
+						+ "AND transaction_type_id=? "
 						+ "AND account_id IN(SELECT id from accounts where user_id=?)")) {
 			ps.setDate(1, Date.valueOf(year+"-"+month+"-1"));
 			ps.setDate(2, Date.valueOf(LocalDate.now()));
@@ -319,7 +319,7 @@ public class TransactionDao implements ITransactionDao {
 				"SELECT id,amount,date,currency_id,account_id,category_id,"
 						+ "transaction_type_id FROM transactions "
 						+ "Where (date BETWEEN ? AND ?)"
-						+ "AND transaction_type_id=?"
+						+ "AND transaction_type_id=? "
 						+ "AND account_id IN(SELECT id from accounts where user_id=?)")) {
 			ps.setDate(1, Date.valueOf(year+"-"+month+"-1"));
 			ps.setDate(2, Date.valueOf(LocalDate.now()));
