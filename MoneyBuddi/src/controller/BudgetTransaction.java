@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.manager.TransactionManager;
 import dao.AccountDao;
 import dao.BudgetDao;
 import dao.TransactionDao;
@@ -56,16 +57,19 @@ public class BudgetTransaction extends HttpServlet {
     	LocalDate date=LocalDate.parse(strinDate);
 		
 		int accountId=Integer.parseInt(request.getParameter("accountId"));
+		System.out.println(accountId);
 		Account account=AccountDao.getInstance().getAccountById(accountId);
 		
 		Budget budget=(Budget) request.getSession().getAttribute("budget");
 		
 		if(budget.getCategory().getType().equals(TransactionType.EXPENSE)) {
 			Expense expense=new Expense(amount,budget.getCurrency(), account, date, budget.getCategory());
-			TransactionDao.getInstance().addTransaction(expense);
+			//TransactionDao.getInstance().addTransaction(expense,budget);
+			 TransactionManager.getInstance().addTransaction(expense, budget);
 		}else if(budget.getCategory().getType().equals(TransactionType.INCOME)) {
 			Income income=new Income(amount, budget.getCurrency(), account, date, budget.getCategory());
-			TransactionDao.getInstance().addTransaction(income);
+			//TransactionDao.getInstance().addTransaction(income,budget);
+			TransactionManager.getInstance().addTransaction(income, budget);
 		}
 		  System.out.println("Success");
 		  request.getRequestDispatcher("budget.jsp").forward(request, response);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.manager.TransactionManager;
 import dao.AccountDao;
 import dao.CategoryDAO;
 import dao.TransactionDao;
@@ -62,7 +63,8 @@ public class AddIncomeServlet extends HttpServlet {
 				//create transaction (needed: amount, currency, acount, date, category, type=income) 
 				Transaction income=new Income(amount,currency,account,LocalDate.now(),category);
 				//save it to db
-				TransactionDao.getInstance().addTransaction(income);
+				//TransactionDao.getInstance().addTransaction(income);
+				TransactionManager.getInstance().addTransaction(income,null);
 				//forward to main.jsp
 				request.getRequestDispatcher("main.jsp").forward(request, response);
 				System.out.println("Income added");

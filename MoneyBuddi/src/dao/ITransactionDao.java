@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import exceptions.InvalidDataException;
+import model.Budget;
 import model.Transaction;
 import model.User;
 
 public interface ITransactionDao {
-
-	void addTransaction(Transaction transaction) throws SQLException;
+                                                         
+	void addTransaction(Transaction transaction,Budget budget) throws SQLException;//budget is optional
 	void deleteTransaction(Transaction transaction) throws SQLException;
 	void changeTransaction(Transaction transaction) throws SQLException;
 	Collection<Transaction> getAllTransactionsByUser(User u) throws SQLException,InvalidDataException;
