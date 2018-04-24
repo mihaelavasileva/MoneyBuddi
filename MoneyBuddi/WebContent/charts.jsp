@@ -61,7 +61,7 @@
 	  Map<Category,Double> expenseByMonth=(Map<Category,Double>)request.getAttribute("expenseByMonth");
 	  double totalAmountExpense=0;
 	  int transactionsCountExpense=0;
-	  for(Map.Entry<Category,Double> e : incomeByMonth.entrySet()){
+	  for(Map.Entry<Category,Double> e : expenseByMonth.entrySet()){
 		  totalAmountExpense+=e.getValue();
 		  transactionsCountExpense++;
 			%>
