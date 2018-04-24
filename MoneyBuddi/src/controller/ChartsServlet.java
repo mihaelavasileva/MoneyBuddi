@@ -24,7 +24,6 @@ public class ChartsServlet extends HttpServlet {
 		User u=(User)request.getSession().getAttribute("user");
 		try {
 			ArrayList<Transaction> incomeTransactionsByMonth=TransactionDao.getInstance().getIncomeByUserForMonth(u);
-			System.out.println("=====");
 			ArrayList<Transaction> expenseTransactionsByMonth=TransactionDao.getInstance().getExpenseByUserForMonth(u);
 			System.out.println("income size "+incomeTransactionsByMonth.size());
 			System.out.println("expense size "+expenseTransactionsByMonth.size());
