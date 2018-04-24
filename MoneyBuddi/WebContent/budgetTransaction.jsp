@@ -25,7 +25,7 @@
 			Amount:<input type="number" name="amount" required>  <br>
 			Account:<select name="accountId">
 					  <%ArrayList<Account> accounts=(ArrayList<Account>)request.getSession().getAttribute("accounts"); 
-					  		int accountId=0;
+					  		long accountId=0;
 					 	    for(Account a:accounts){
 					   %>
 					  <option value="<%=accountId=a.getId() %>"> <%=a.getName()+"-"+a.getBalance()+"-"+a.getCurrency().getType().toString() %></option>

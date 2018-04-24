@@ -5,15 +5,13 @@ import model.Transaction.TransactionType;
 
 public class Category {
 	
-	
-	
-	private int id;
+	private long id;
 	private String  category;
 	private TransactionType type;
-	private int userId;//not obligatory
+	private long userId;//not obligatory
 	
 	
-	public Category(int id, String category, TransactionType type) throws InvalidDataException {
+	public Category(long id, String category, TransactionType type) throws InvalidDataException {
 	    this(category,type);
 		this.setId(id);
 		
@@ -24,25 +22,22 @@ public class Category {
 		this.setType(type);
 	}
 	
-	public Category(String category, TransactionType type,int user_id) throws InvalidDataException {
+	public Category(String category, TransactionType type,long user_id) throws InvalidDataException {
 		this(category,type);
 		this.setUserId(user_id);
 	}
 	
-	public Category(int id,String category, TransactionType type,int user_id) throws InvalidDataException {
+	public Category(long id,String category, TransactionType type,long user_id) throws InvalidDataException {
 		this(id,category,type);
 		this.setUserId(user_id);
 	}
 	
-	
-	
-	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
 	public void setId(long id) {
-		this.id = (int)id;
+		this.id = id;
 	}
 	
 	public String getCategory() {
@@ -64,11 +59,11 @@ public class Category {
 		this.type = type;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	

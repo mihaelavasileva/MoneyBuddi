@@ -29,10 +29,10 @@ public class CurrencyDAO implements ICurrencyDAO{
 	}
 
 	@Override
-	public Currency getCurrencyById(int id) throws SQLException {
+	public Currency getCurrencyById(long id) throws SQLException {
    
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,type FROM currencies WHERE id=?")){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			
 			try(ResultSet rs=ps.executeQuery();){
 				if(rs.next()) {//if there is such a row
@@ -62,7 +62,7 @@ public class CurrencyDAO implements ICurrencyDAO{
 			try(ResultSet rs=ps.executeQuery();){
 				if(rs.next()) {//if there is such a row
 
-				  return new Currency(rs.getInt("id"),type);
+				  return new Currency(rs.getLong("id"),type);
 						
 				}
 			}
@@ -79,7 +79,7 @@ public class CurrencyDAO implements ICurrencyDAO{
 			
 			try(ResultSet rs=ps.executeQuery();){
 				while(rs.next()) {
-				   currencies.add(this.getCurrencyById(rs.getInt("id")));
+				   currencies.add(this.getCurrencyById(rs.getLong("id")));
 			}
 		}
 		

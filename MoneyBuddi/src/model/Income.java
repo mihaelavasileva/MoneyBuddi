@@ -8,7 +8,7 @@ import exceptions.InvalidDataException;
 public class Income extends Transaction{
 
 	//constructor with id
-	public Income(int id, double amount, Currency currency, Account account, LocalDate date, Category category) throws InvalidDataException {
+	public Income(long id, double amount, Currency currency, Account account, LocalDate date, Category category) throws InvalidDataException {
 		super(id, amount, currency, account, date, category, TransactionType.INCOME);
 		
 	}

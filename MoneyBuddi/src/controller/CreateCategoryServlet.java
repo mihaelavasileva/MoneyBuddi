@@ -45,7 +45,7 @@ public class CreateCategoryServlet extends HttpServlet {
 		TransactionType ttype=null;
 		try {
 			User user=(User)request.getSession().getAttribute("user");
-			int userId=user.getId();
+			long userId=user.getId();
 			try {
 			ttype=TransactionType.valueOf(type);
 			}catch(IllegalArgumentException e) {

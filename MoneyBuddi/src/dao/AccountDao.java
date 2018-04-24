@@ -68,9 +68,9 @@ public class AccountDao implements IAccountDao {
 				+ "WHERE id=?");
 		ps.setString(1, account.getName());
 		ps.setDouble(2, account.getBalance());
-		ps.setInt(3, account.getUser().getId());
-		ps.setInt(4, account.getCurrencyId());
-		ps.setInt(5, account.getId());
+		ps.setLong(3, account.getUser().getId());
+		ps.setLong(4, account.getCurrencyId());
+		ps.setLong(5, account.getId());
 		ps.executeUpdate();
 	}
 
@@ -93,21 +93,13 @@ public class AccountDao implements IAccountDao {
 					+ "FROM accounts WHERE name=? AND user_id=?");
 			ps.setString(1, name);
 			ps.setLong(2, u.getId());
-			
-			/*ResultSet rs=ps.executeQuery();
-			account=new Account(rs.getInt(1),//account id
-								rs.getString(2),//account name
-								rs.getDouble(3),//account balance
-								rs.getInt(4),//user_id
-								rs.getInt(5));//currency_id
-								*/
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()) {
-			account=new Account(rs.getInt("id"),//account id
+			account=new Account(rs.getLong("id"),//account id
 								rs.getString("name"),//account name
 								rs.getDouble("balance"),//account balance
-								UserDao.getInstance().getUserById(rs.getInt("user_id")),//user
-								CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")));//Currency
+								UserDao.getInstance().getUserById(rs.getLong("user_id")),//user
+								CurrencyDAO.getInstance().getCurrencyById(rs.getLong("currency_id")));//Currency
 			}else {
 				throw new SQLException("No such account");
 			}
@@ -127,15 +119,15 @@ public class AccountDao implements IAccountDao {
 		try {
 			ps=connection.prepareStatement("SELECT id, name, "
 					+ "balance,user_id, currency_id FROM accounts WHERE user_id=?");
-			ps.setInt(1, u.getId());
+			ps.setLong(1, u.getId());
 			
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
-				accounts.add(new Account(rs.getInt("id"),
+				accounts.add(new Account(rs.getLong("id"),
 						                 rs.getString("name"),
 						                 rs.getDouble("balance"),
-						                 UserDao.getInstance().getUserById(rs.getInt("user_id")),
-						                 CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id"))));
+						                 UserDao.getInstance().getUserById(rs.getLong("user_id")),
+						                 CurrencyDAO.getInstance().getCurrencyById(rs.getLong("currency_id"))));
 			}
 		}finally {
 			ps.close();
@@ -145,16 +137,16 @@ public class AccountDao implements IAccountDao {
 	}
 
 	@Override
-	public Account getAccountById(int id) throws SQLException, exceptions.InvalidDataException {
+	public Account getAccountById(long id) throws SQLException, exceptions.InvalidDataException {
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,name,balance,user_id,currency_id FROM accounts WHERE id=?")){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			try(ResultSet rs=ps.executeQuery()){
 				if(rs.next()) {
-					return new Account(rs.getInt("id"),
+					return new Account(rs.getLong("id"),
 							           rs.getString("name"),
 							           rs.getDouble("balance"),
-							           UserDao.getInstance().getUserById(rs.getInt("user_id")),
-							           CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")));
+							           UserDao.getInstance().getUserById(rs.getLong("user_id")),
+							           CurrencyDAO.getInstance().getCurrencyById(rs.getLong("currency_id")));
 				}
 			}
 		}

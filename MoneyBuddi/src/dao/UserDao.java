@@ -60,7 +60,7 @@ public class UserDao implements IUserDao {
 		PreparedStatement s = null;
 		try {
 			s = connection.prepareStatement("DELETE FROM users WHERE id=?");
-			s.setInt(1, u.getId());
+			s.setLong(1, u.getId());
 			s.executeUpdate();
 		} catch (Exception e) {
 			throw new SQLException("Could not delete user.");
@@ -94,13 +94,13 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public User getUserById(int id) throws SQLException {
+	public User getUserById(long id) throws SQLException {
 		User user = null;
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement("SELECT username,password,"
 					+ "email,age FROM users WHERE id=?");
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			ResultSet result = ps.executeQuery();
 			result.next();
 			user = new User(id, result.getString("username"), // get user`s username
@@ -128,7 +128,7 @@ public class UserDao implements IUserDao {
 			
 			if(result.next()) {
 			// create the user
-			user = new User(result.getInt("id"),//get id
+			user = new User(result.getLong("id"),//get id
 					username,
 					result.getString("password"),//get password
 					result.getString("email"),//get email
@@ -164,17 +164,12 @@ public class UserDao implements IUserDao {
 			ps=connection.prepareStatement(  
 			    "SELECT id FROM users WHERE username=? AND password=?");  
 		
-			    //COUNT(id) go smenih shtoto shteshe da vrushta red nezavisimo dali
-			    //sushtesvuva toq user i status=rs.next() shteshe da vrushta true vinagi
-		
 			ps.setString(1,username);  
 			ps.setString(2, pass);  
 			              
 			ResultSet rs=ps.executeQuery();
 		   
 			status=rs.next();
-			
-			
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Exception");
@@ -197,7 +192,7 @@ public class UserDao implements IUserDao {
 		if(result.next()) {
 			String hashed=result.getString("password");
 			if(BCrypt.checkpw(pass, hashed)) {
-			return new User(result.getInt("id"),
+			return new User(result.getLong("id"),
 					result.getString("username"),
 					result.getString("password"),
 					result.getString("email"),

@@ -38,9 +38,9 @@ public class BudgetDao implements IBudgetDAO{
 		ps.setDouble(1, budget.getAmount());
 		ps.setDate(2, Date.valueOf(budget.getBeginDate()));
 		ps.setDate(3, Date.valueOf(budget.getEndDate()));
-		ps.setInt(4, (int)budget.getUser().getId());
-		ps.setInt(5, budget.getCurrency().getId());
-		ps.setInt(6,budget.getCategory().getId());
+		ps.setLong(4, budget.getUser().getId());
+		ps.setLong(5, budget.getCurrency().getId());
+		ps.setLong(6,budget.getCategory().getId());
 		
 		
 		int rows=ps.executeUpdate();
@@ -59,10 +59,10 @@ public class BudgetDao implements IBudgetDAO{
 		ps.setDouble(1, budget.getAmount());
 		ps.setDate(2, Date.valueOf(budget.getBeginDate()));
 		ps.setDate(3, Date.valueOf(budget.getEndDate()));
-		ps.setInt(4, (int)budget.getUser().getId());
-		ps.setInt(5, budget.getCurrency().getId());
-		ps.setInt(6, budget.getCategory().getId());
-		ps.setInt(7, budget.getId());
+		ps.setLong(4, budget.getUser().getId());
+		ps.setLong(5, budget.getCurrency().getId());
+		ps.setLong(6, budget.getCategory().getId());
+		ps.setLong(7, budget.getId());
 		
 		int rows=ps.executeUpdate();
 		if(rows==0) {
@@ -77,7 +77,7 @@ public class BudgetDao implements IBudgetDAO{
 	public void deleteBudget(Budget budget) throws SQLException {
 		
 		try(PreparedStatement ps=connection.prepareStatement("DELETE FROM budgets WHERE id=?");){
-		ps.setInt(1, budget.getId());
+		ps.setLong(1, budget.getId());
 		
 		int rows=ps.executeUpdate();
 		if(rows==0) {
@@ -96,11 +96,11 @@ public class BudgetDao implements IBudgetDAO{
 			ps.setInt(1,(int) user.getId());
 			try(ResultSet rs=ps.executeQuery()){
 				while(rs.next()) {
-					budgets.add(new Budget(rs.getInt("id"),
-							               CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id")), 
+					budgets.add(new Budget(rs.getLong("id"),
+							               CategoryDAO.getInstance().getCategoryByID(rs.getLong("category_id")), 
 							               rs.getDouble("amount"), 
-							               UserDao.getInstance().getUserById(rs.getInt("user_id")), 
-							               CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+							               UserDao.getInstance().getUserById(rs.getLong("user_id")), 
+							               CurrencyDAO.getInstance().getCurrencyById(rs.getLong("currency_id")),
 							               rs.getDate("begin_date").toLocalDate(), 
 							               rs.getDate("end_date").toLocalDate()));
 					
@@ -113,19 +113,19 @@ public class BudgetDao implements IBudgetDAO{
 	}
 
 	@Override
-	public Budget getBudgetById(int id) throws Exception {
+	public Budget getBudgetById(long id) throws Exception {
 		Budget b=null;
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id , amount , begin_date,"
 								                             + "end_date , user_id , currency_id , category_id " 
 								                             + "FROM budgets WHERE id=?" )){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			try(ResultSet rs=ps.executeQuery()){
 				if(rs.next()) {
-					b=new Budget(rs.getInt("id"),
-				               CategoryDAO.getInstance().getCategoryByID(rs.getInt("category_id")), 
+					b=new Budget(rs.getLong("id"),
+				               CategoryDAO.getInstance().getCategoryByID(rs.getLong("category_id")), 
 				               rs.getDouble("amount"), 
-				               UserDao.getInstance().getUserById(rs.getInt("user_id")), 
-				               CurrencyDAO.getInstance().getCurrencyById(rs.getInt("currency_id")),
+				               UserDao.getInstance().getUserById(rs.getLong("user_id")), 
+				               CurrencyDAO.getInstance().getCurrencyById(rs.getLong("currency_id")),
 				               rs.getDate("begin_date").toLocalDate(), 
 				               rs.getDate("end_date").toLocalDate());
 					return b;

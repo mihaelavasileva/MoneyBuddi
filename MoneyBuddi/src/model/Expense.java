@@ -14,7 +14,7 @@ public class Expense extends Transaction {
 	}
 	
 	//constructor with id
-	public Expense(int id,double amount, Currency currency, Account account, LocalDate date, Category category) throws InvalidDataException {
+	public Expense(long id,double amount, Currency currency, Account account, LocalDate date, Category category) throws InvalidDataException {
 		super(id,amount, currency, account, date, category,TransactionType.EXPENSE);
 		
 	}

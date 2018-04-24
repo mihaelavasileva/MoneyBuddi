@@ -20,7 +20,7 @@ public abstract class Transaction {
 		}
 	}
 	
-	private int id;
+	private long id;
 	private double amount;
 	private Currency currency;
 	private Account account;
@@ -38,7 +38,7 @@ public abstract class Transaction {
 		this.setType(type);
 	}
 	
-	public Transaction(int id, double amount, Currency currency, Account account, 
+	public Transaction(long id, double amount, Currency currency, Account account, 
 			LocalDate date, Category category, TransactionType type) throws InvalidDataException {
 		this(amount,currency,account,date,category,type);
 		this.setId(id);
@@ -62,7 +62,7 @@ public abstract class Transaction {
 		return account;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
@@ -76,7 +76,7 @@ public abstract class Transaction {
 	
 	//======setters
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

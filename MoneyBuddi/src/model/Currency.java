@@ -8,7 +8,7 @@ public class Currency {
 		EUR,USD,BGN,GBP,RUB
 	}
 	
-	private int id;
+	private long id;
 	private CurrencyType type;
 	
 	public Currency( CurrencyType type) {
@@ -16,7 +16,7 @@ public class Currency {
 	}
 	
 	
-	public Currency(int id, CurrencyType type) {
+	public Currency(long id, CurrencyType type) {
 		this.id = id;
 		this.type = type;
 	}
@@ -24,11 +24,11 @@ public class Currency {
 	
 	
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	

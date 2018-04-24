@@ -26,7 +26,7 @@
 		<%
 		User u=(User)request.getSession().getAttribute("user");
 		ArrayList<Account> accounts=AccountDao.getInstance().getAllAccountsForUser(u);
-		int accountId=0;
+		long accountId=0;
 		for(Account a: accounts){
 		%>
     		<option value="<%= accountId=a.getId() %>"><%= a.getName() %></option>

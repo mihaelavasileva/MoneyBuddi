@@ -22,7 +22,6 @@ public class ShowIncomeServlet extends HttpServlet {
 	  try {
 		//get all incomes by year, month or week (default - by week) for current user
 		  User user=(User)request.getSession().getAttribute("user");
-		  int userId=user.getId();
 		  ArrayList<Transaction> incomeTransactions=TransactionDao.getInstance().getAllIncomeTransactions(user);
 		  //add them to request and forward it
 		  request.setAttribute("incomeTransactions", incomeTransactions);

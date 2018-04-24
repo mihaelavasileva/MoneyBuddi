@@ -20,7 +20,7 @@
 			<%
 		
 			ArrayList<Budget> budgets=(ArrayList<Budget>)request.getSession().getAttribute("budgets");
-			int budgetId=0;
+			long budgetId=0;
 			for(Budget b: budgets){
 			%>
     			<option value="<%= budgetId=b.getId() %>"><%= b.getCategory().getCategory()+" "

@@ -33,17 +33,17 @@ public class CategoryDAO implements ICategoryDAO{
 	}
 
 	@Override
-	public Category getCategoryByID(int id) throws SQLException, InvalidDataException {
+	public Category getCategoryByID(long id) throws SQLException, InvalidDataException {
 															//could be done with join
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
 														  + " WHERE id=?")){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			try(ResultSet rs=ps.executeQuery()){
 				if(rs.next()) {//if there is such a row
-					return new Category(rs.getInt("id"),
+					return new Category(rs.getLong("id"),
 							rs.getString("category"),								   
 							TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
-							rs.getInt("user_id")
+							rs.getLong("user_id")
 							);
 				}
 			}
@@ -60,7 +60,7 @@ public class CategoryDAO implements ICategoryDAO{
 			
 			ps.setString(1, category.getCategory());
 			ps.setInt(2, TransactionTypeDAO.getInstance().getIdByTranscationType(category.getType()));
-			ps.setInt(3, category.getUserId());
+			ps.setLong(3, category.getUserId());
 			
 			//
 			int rows=ps.executeUpdate();
@@ -77,14 +77,14 @@ public class CategoryDAO implements ICategoryDAO{
 		try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
 				                                             +"WHERE user_id IS NULL or user_id=?" )){
 
-			ps.setInt(1, (int) user.getId());//what if user id is null
+			ps.setLong(1, user.getId());//what if user id is null
 			try(ResultSet rs=ps.executeQuery();){
 				while(rs.next()) {
 					
-					categories.add(new Category(rs.getInt("id"),
+					categories.add(new Category(rs.getLong("id"),
 												rs.getString("category"),
 												TransactionTypeDAO.getInstance().getTypeById(rs.getInt("transaction_type_id")),
-												rs.getInt("user_id")));
+												rs.getLong("user_id")));
 				}
 			}
 		}
@@ -102,16 +102,16 @@ public class CategoryDAO implements ICategoryDAO{
 		 try(PreparedStatement ps=connection.prepareStatement("SELECT id,category,transaction_type_id,user_id FROM categories "
                  +"WHERE (user_id IS NULL OR user_id=?) and "
                  + "transaction_type_id=? " )){
-			 ps.setInt(1, (int) user.getId());//what if user id is null
+			 ps.setLong(1, user.getId());//what if user id is null
 			 ps.setInt(2, id);
 		
 			 try(ResultSet rs=ps.executeQuery();){
 				 while(rs.next()) {
 					
-					 categories.add(new Category(rs.getInt("id"),
+					 categories.add(new Category(rs.getLong("id"),
 							 					 rs.getString("category"),
 							 					 type,
-							 					 rs.getInt("user_id")));
+							 					 rs.getLong("user_id")));
 				 }
 			 }
 		 }
@@ -120,10 +120,10 @@ public class CategoryDAO implements ICategoryDAO{
 	}
 
 	@Override
-	public void deleteCategory(int id) throws SQLException {
+	public void deleteCategory(long id) throws SQLException {
 		
 		try(PreparedStatement ps=connection.prepareStatement("DELETE FROM categories WHERE id=? and user_id IS NOT NULL")){
-			ps.setInt(1, id);
+			ps.setLong(1, id);
 			int rows=ps.executeUpdate();
 			if(rows==0) {
 				throw new SQLException("Srry category can't be deleted");

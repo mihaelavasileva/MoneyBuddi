@@ -2,26 +2,25 @@ package model;
 
 public class Account {
 	
-	private int id;
+	private long id;
 	private String name;
 	private double balance;
 	private User user;
 	private Currency currency;
 
-	private Account(int id, String name, double balance) throws exceptions.InvalidDataException {
+	private Account(long id, String name, double balance) throws exceptions.InvalidDataException {
 		this.setId(id);
 		this.setName(name);
 		this.setBalance(balance);
 	}
-	public Account(int id, String name, double balance, User user, 
+	public Account(long id, String name, double balance, User user, 
 			Currency currency) throws  exceptions.InvalidDataException {
 		this(id, name, balance);
 		this.setUser(user);
-		//this.currency.setId(currency.getId()); 
 		this.setCurrency(currency);
 	}
 	
-	public Account(int id, String name, double balance,int user_id, int currency_id)
+	public Account(long id, String name, double balance,long user_id, int currency_id)
 			throws  exceptions.InvalidDataException {
 		this(id, name, balance);
 		this.user.setId(user_id);
@@ -41,7 +40,7 @@ public class Account {
 	public double getBalance() {
 		return balance;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public String getName() {
@@ -50,7 +49,7 @@ public class Account {
 	public User getUser() {
 		return user;
 	}
-	public int getCurrencyId() {
+	public long getCurrencyId() {
 		return currency.getId();
 	}
 	
@@ -63,7 +62,7 @@ public class Account {
 		this.balance = balance;
 	}
 	public void setId(long id) {
-		this.id = (int)id;
+		this.id = id;
 	}
 	public void setUser(User user) throws exceptions.InvalidDataException {
 		if(user == null) {
@@ -78,7 +77,7 @@ public class Account {
 		this.name = name;
 	}
 	
-	public void setCurrencyId(int id) {
+	public void setCurrencyId(long id) {
 		this.currency.setId(id);;
 	}
 	

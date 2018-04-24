@@ -34,7 +34,7 @@ public class AddExpenseServlet extends HttpServlet {
 			//get all categories
 			//get the user id from session and then retrieve from db by that id
 			User user=(User)request.getSession().getAttribute("user");
-			int userId=user.getId();
+			long userId=user.getId();
 			List<Category> categories = CategoryDAO.getInstance()
 					.getAllCategoriesByUserAndType(UserDao.getInstance().getUserById(userId), TransactionType.EXPENSE);
 			//add them to request
@@ -54,7 +54,7 @@ public class AddExpenseServlet extends HttpServlet {
 			if(amountAsString!=null && !amountAsString.isEmpty()) {
 				//get data from request
 				double amount=Double.parseDouble(amountAsString);
-				int categoryId=Integer.parseInt(request.getParameter("categoryId"));
+				long categoryId=Long.parseLong(request.getParameter("categoryId"));
 				Category category=CategoryDAO.getInstance().getCategoryByID(categoryId);
 				Integer accountId=(Integer)request.getSession().getAttribute("accountId");
 				Account account=AccountDao.getInstance().getAccountById(accountId);

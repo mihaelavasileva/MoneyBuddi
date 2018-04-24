@@ -6,9 +6,7 @@ import exceptions.InvalidDataException;
 
 public class Budget {
 	
-	
-	private int id;
-	
+	private long id;
 	private double amount;
 	private User user;
 	private Category category;
@@ -20,7 +18,7 @@ public class Budget {
 	//TODO ADD validations in setters 
 	
 	
-	public Budget(int id,Category category,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) throws InvalidDataException {
+	public Budget(long id,Category category,double amount, User user, Currency currency, LocalDate beginDate, LocalDate endDate) throws InvalidDataException {
 		this(category,amount, user, currency, beginDate, endDate);
 		this.setId(id);
 		
@@ -53,12 +51,12 @@ public class Budget {
 	}
 	
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
