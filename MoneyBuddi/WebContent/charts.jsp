@@ -1,3 +1,4 @@
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="model.Category"%>
 <%@page import="java.util.Map"%>
 <%@page import="model.Transaction"%>
@@ -35,6 +36,8 @@
 	    		 <td><%= e.getValue() %></td>
 	    		 <% 
 	    		 double percentsIncome=(e.getValue())*100/(double)request.getAttribute("totalIncomeAmount");
+	    		 DecimalFormat format_2Places = new DecimalFormat("0.00");
+	    		 percentsIncome = Double.valueOf(format_2Places.format(percentsIncome));
 	    		 %>
 				 <td><%= percentsIncome%></td>
 	  		</tr>
@@ -70,6 +73,8 @@
 	    		 <td><%= e.getValue() %></td>
 	    		 <% 
 	    		 double percentsExpense=(e.getValue())*100/(double)request.getAttribute("totalExpenseAmount");
+	    		 DecimalFormat format_2Places = new DecimalFormat("0.00");
+	    		 percentsExpense = Double.valueOf(format_2Places.format(percentsExpense));
 	    		 %>
 				 <td><%= percentsExpense%></td>
 	  		</tr>

@@ -17,7 +17,7 @@
 				<% List<Category> categories=(List<Category>)request.getAttribute("categories");
 					for(Category c : categories){
 				%>
-				<option value="<%= c.getId() %>"> <%= c.getCategory() %> </option>
+				<option value="<%=c.getId() %>"> <%= c.getCategory() %> </option>
 				<%} %>
 			</select>
 			<input type="button" onclick="location.href='main.jsp'" value="close">

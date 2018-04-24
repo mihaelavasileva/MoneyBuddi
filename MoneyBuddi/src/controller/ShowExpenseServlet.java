@@ -20,7 +20,7 @@ public class ShowExpenseServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	  try {
-		//TODO get all incomes by year, month or week (default - by week) for current user
+		  //show expense for the selected account
 		  User user=(User)request.getSession().getAttribute("user");
 		  ArrayList<Transaction> expenseTransactions=TransactionDao.getInstance().getAllExpenseTransactions(user);
 		  //add them to request and forward it
