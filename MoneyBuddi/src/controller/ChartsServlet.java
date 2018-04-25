@@ -24,13 +24,11 @@ public class ChartsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//get all transactions for current month
 		User u=(User)request.getSession().getAttribute("user");
-		long accountId=(long)request.getSession().getAttribute("accountId");
+
 		try {
-			//get account
-			Account account=AccountDao.getInstance().getAccountById(accountId);
 			//get transactions
-			ArrayList<Transaction> incomeTransactionsByMonth=TransactionDao.getInstance().getIncomeForMonth(u,account);
-			ArrayList<Transaction> expenseTransactionsByMonth=TransactionDao.getInstance().getExpenseForMonth(u,account);
+			ArrayList<Transaction> incomeTransactionsByMonth=TransactionDao.getInstance().getIncomeForMonth(u);
+			ArrayList<Transaction> expenseTransactionsByMonth=TransactionDao.getInstance().getExpenseForMonth(u);
 			System.out.println("income size "+incomeTransactionsByMonth.size());
 			System.out.println("expense size "+expenseTransactionsByMonth.size());
 			//create map category -> amount

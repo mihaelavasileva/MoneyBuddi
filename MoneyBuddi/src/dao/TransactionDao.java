@@ -279,7 +279,7 @@ public class TransactionDao implements ITransactionDao {
 	}
 
 	@Override
-	public ArrayList<Transaction> getExpenseForMonth(User u, Account account) throws Exception {
+	public ArrayList<Transaction> getExpenseForMonth(User u) throws Exception {
 		ArrayList<Transaction> transactions = new ArrayList();
 		LocalDate now=LocalDate.now();
 		int year=now.getYear();
@@ -289,11 +289,11 @@ public class TransactionDao implements ITransactionDao {
 						+ "transaction_type_id FROM transactions "
 						+ "Where (date BETWEEN ? AND ?)"
 						+ "AND transaction_type_id=? "
-						+ "AND account_id=?")) {
+						+ "AND account_id in(select id from accounts where user_id=?)")) {
 			ps.setDate(1, Date.valueOf(year+"-"+month+"-1"));
 			ps.setDate(2, Date.valueOf(LocalDate.now()));
 			ps.setInt(3, 2);
-			ps.setLong(4, account.getId());
+			ps.setLong(4, u.getId());
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 						transactions.add(new Expense(rs.getInt("id"), rs.getDouble("amount"),
@@ -310,7 +310,7 @@ public class TransactionDao implements ITransactionDao {
 	}
 
 	@Override
-	public ArrayList<Transaction> getIncomeForMonth(User u, Account account) throws Exception {
+	public ArrayList<Transaction> getIncomeForMonth(User u) throws Exception {
 		ArrayList<Transaction> transactions = new ArrayList();
 		LocalDate now=LocalDate.now();
 		int year=now.getYear();
@@ -320,11 +320,11 @@ public class TransactionDao implements ITransactionDao {
 						+ "transaction_type_id FROM transactions "
 						+ "Where (date BETWEEN ? AND ?)"
 						+ "AND transaction_type_id=? "
-						+ "AND account_id=? ")) {
+						+ "AND account_id in(select id from accounts where user_id=?)")) {
 			ps.setDate(1, Date.valueOf(year+"-"+month+"-1"));
 			ps.setDate(2, Date.valueOf(LocalDate.now()));
 			ps.setInt(3, 1);
-			ps.setLong(4, account.getId());
+			ps.setLong(4, u.getId());
 			try (ResultSet rs = ps.executeQuery()) {
 				while (rs.next()) {
 						transactions.add(new Income(rs.getInt("id"), rs.getDouble("amount"),

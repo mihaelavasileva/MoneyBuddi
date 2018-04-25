@@ -56,7 +56,7 @@ public class AddExpenseServlet extends HttpServlet {
 				double amount=Double.parseDouble(amountAsString);
 				long categoryId=Long.parseLong(request.getParameter("categoryId"));
 				Category category=CategoryDAO.getInstance().getCategoryByID(categoryId);
-				long accountId=(long)request.getSession().getAttribute("accountId");
+				int accountId=Integer.parseInt(request.getParameter("accountId"));
 				Account account=AccountDao.getInstance().getAccountById(accountId);
 				Currency currency=account.getCurrency();
 				
