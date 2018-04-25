@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.AccountDao;
 import dao.TransactionDao;
+import model.Account;
 import model.Category;
 import model.Transaction;
 import model.User;
@@ -22,9 +24,13 @@ public class ChartsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//get all transactions for current month
 		User u=(User)request.getSession().getAttribute("user");
+		long accountId=(long)request.getSession().getAttribute("accountId");
 		try {
-			ArrayList<Transaction> incomeTransactionsByMonth=TransactionDao.getInstance().getIncomeByUserForMonth(u);
-			ArrayList<Transaction> expenseTransactionsByMonth=TransactionDao.getInstance().getExpenseByUserForMonth(u);
+			//get account
+			Account account=AccountDao.getInstance().getAccountById(accountId);
+			//get transactions
+			ArrayList<Transaction> incomeTransactionsByMonth=TransactionDao.getInstance().getIncomeForMonth(u,account);
+			ArrayList<Transaction> expenseTransactionsByMonth=TransactionDao.getInstance().getExpenseForMonth(u,account);
 			System.out.println("income size "+incomeTransactionsByMonth.size());
 			System.out.println("expense size "+expenseTransactionsByMonth.size());
 			//create map category -> amount

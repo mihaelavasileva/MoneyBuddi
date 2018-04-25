@@ -11,6 +11,7 @@
 <body>
 
 <h2>Expense</h2>
+<a  href="main.jsp">Home</a>
 
 	<table style="width:50%">
 	  <tr>

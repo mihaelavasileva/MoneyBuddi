@@ -1,3 +1,6 @@
+<%@page import="dao.AccountDao"%>
+<%@page import="model.Account"%>
+<%@page import="model.User"%>
 <%@page import="java.text.DecimalFormat"%>
 <%@page import="model.Category"%>
 <%@page import="java.util.Map"%>
@@ -14,6 +17,22 @@
 </head>
 <body>
 <h1><%= LocalDate.now().getMonth()%><%= LocalDate.now().getYear() %></h1>
+	
+	<div>
+		<select name="accountId" required>
+		<%
+		User u=(User)request.getSession().getAttribute("user");
+		ArrayList<Account> accounts=AccountDao.getInstance().getAllAccountsForUser(u);
+		long accountId=0;
+		for(Account a: accounts){
+		%>
+    		<option value="<%= accountId=a.getId() %>"><%= a.getName() %></option>
+		<%} 
+		request.getSession().setAttribute("accountId", accountId);
+		%>
+		</select>
+	</div>
+	
 	<div>
 		<div>
 		<h2>Income details | </h2>

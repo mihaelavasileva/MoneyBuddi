@@ -12,6 +12,8 @@
 <title>Budgets</title>
 </head>
 <body>
+	
+	<a  href="main.jsp">Home</a>
 	<div>
 	  <h1>Your budgets</h1>
 	  

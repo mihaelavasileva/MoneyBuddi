@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import exceptions.InvalidDataException;
+import model.Account;
 import model.Budget;
 import model.Transaction;
 import model.User;
@@ -20,6 +21,6 @@ public interface ITransactionDao {
 	ArrayList<Transaction> getAllExpenseTransactions(User u) throws Exception;
 	ArrayList<Transaction> getAllTransactionsByUserFiltered(User u, int days) throws SQLException, InvalidDataException;
 	ArrayList<Transaction> getAllTransactionsByUserAndDate(User u, LocalDate date)throws SQLException, InvalidDataException;
-	ArrayList<Transaction> getIncomeByUserForMonth(User u) throws Exception;
-	ArrayList<Transaction> getExpenseByUserForMonth(User u) throws Exception;
+	ArrayList<Transaction> getIncomeForMonth(User u, Account account) throws Exception;
+	ArrayList<Transaction> getExpenseForMonth(User u, Account account) throws Exception;
 }

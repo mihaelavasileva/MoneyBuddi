@@ -11,6 +11,7 @@
 </head>
 <body>
 
+	<a  href="main.jsp">Home</a>
 	<div>
 	   <form action="showMixed" method="post">
 			<select name="filter" required>
